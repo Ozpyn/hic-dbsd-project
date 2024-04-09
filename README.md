@@ -13,6 +13,10 @@ After the repo is cloned run the following command in the project folder:
 ```npm install```
 (This will gather and install any dependencies required)
 
+Copy .env.example to .env then ask for variables. (These include database locations and security keys)
+
+```cp .env.example .env```
+
 
 
 ## Available Scripts
