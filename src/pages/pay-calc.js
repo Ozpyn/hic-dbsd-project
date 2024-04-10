@@ -1,7 +1,7 @@
 import React from "react";
 import Cookies from 'js-cookie';
 
-const tradVal = Cookies.get('trade-in value');
+const tradVal = Cookies.get('trade-in-value');
 const vehVal = Cookies.get('vehicle-value');
  
 const PayCalc = () => {
