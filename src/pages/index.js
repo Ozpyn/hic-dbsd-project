@@ -1,5 +1,5 @@
 import React from "react";
-import {Listing, BoxForListing} from "../components/Vehicle-Listings.js";
+import {Listing, BoxForListing, PurchaseButton} from "../components/Vehicle-Listings.js";
  
 const Home = () => {
     return (
@@ -14,6 +14,7 @@ const Home = () => {
                     <p>10,000 Miles</p>
                     <p>$20,000</p>
                     <p>Other vehicle details we want</p>
+                    <PurchaseButton/>
                 </BoxForListing>
 
                 <BoxForListing>
@@ -23,6 +24,7 @@ const Home = () => {
                     <p>50,000 Miles</p>
                     <p>$15,000</p>
                     <p>Other vehicle details we want</p>
+                    <PurchaseButton/>
                 </BoxForListing>
             </Listing>
         </div>

@@ -19,3 +19,25 @@ export const BoxForListing = styled.div`
     flex-direction: column;
 `;
 
+const RedirectToPurchasePage = () => {
+    window.location.href = "/purchase";
+};
+
+
+
+export const PurchaseButton = () => {
+    return(
+        <button onClick={RedirectToPurchasePage}
+        style={{
+            backgroundColor: "#007bff",
+            color: "#fff",
+            padding: "10px 20px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            alignSelf: "center", 
+        }}
+        >
+        Purchase</button>
+    );
+};
