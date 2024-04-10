@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import {
     BrowserRouter as Router,
     Routes,
@@ -10,6 +11,7 @@ import SavedVehicles from "./pages/saved-vehicles";
 import TradeCalc from "./pages/trade-calc";
 import PayCalc from "./pages/pay-calc";
 import SignIn from "./pages/sign-in";
+import Purchase from "./pages/purchase";
  
 function App() {
     return (
@@ -27,7 +29,9 @@ function App() {
                     path="/sign-in"
                     element={<SignIn />}
                 />
+                <Route path="/purchase" element={<Purchase />} />
             </Routes>
+            <Footer />
         </Router>
     );
 }
