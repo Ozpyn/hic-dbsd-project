@@ -13,6 +13,7 @@ import PayCalc from "./pages/pay-calc";
 import SignIn from "./pages/sign-in";
 import Purchase from "./pages/purchase";
 import AboutVehicle from "./pages/about-vehicle";
+import Search from "./pages/search";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                 />
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/about-vehicle" element={<AboutVehicle/>} />
+                <Route path="/search" element={<Search/>} />
             </Routes>
             <Footer />
         </Router>
