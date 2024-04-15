@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const Footer = styled.footer`
     background-color: #666; 
     color: #fff;
+    margin-top: 100px;
     padding: 50px;
     width: 100%;
     box-sizing: border-box;
