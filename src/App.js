@@ -14,6 +14,7 @@ import SignIn from "./pages/sign-in";
 import Purchase from "./pages/purchase";
 import AboutVehicle from "./pages/about-vehicle";
 import Search from "./pages/search";
+import Ownership from "./pages/ownership";
 
 function App() {
     return (
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/about-vehicle" element={<AboutVehicle/>} />
                 <Route path="/search" element={<Search/>} />
+                <Route path="/ownership" element={<Ownership />} />
             </Routes>
             <Footer />
         </Router>
