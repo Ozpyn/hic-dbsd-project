@@ -12,6 +12,7 @@ import TradeCalc from "./pages/trade-calc";
 import PayCalc from "./pages/pay-calc";
 import SignIn from "./pages/sign-in";
 import Purchase from "./pages/purchase";
+import Ownership from "./pages/ownership";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     element={<SignIn />}
                 />
                 <Route path="/purchase" element={<Purchase />} />
+                <Route path="/ownership" element={<Ownership />} />
             </Routes>
             <Footer />
         </Router>

@@ -1,5 +1,7 @@
 import React from "react";
 import { Nav, NavLink, NavMenu } from "./NavbarElements";
+import { ThemeProvider } from "@mui/material/styles"
+import Button from "@mui/material/Button"
 
 const Navbar = () => {
     return (
@@ -20,6 +22,9 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink to="/sign-in" activeStyle>
                         Sign In / Sign Up
+                    </NavLink>
+                    <NavLink to="/ownership" activeStyle>
+                        Ownership
                     </NavLink>
                 </NavMenu>
             </Nav>
