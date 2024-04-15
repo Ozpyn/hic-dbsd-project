@@ -1,8 +1,17 @@
 import React from "react";
-import {AvailButton, BoxForImage, ButtonBox, CalcButton} from "../components/purchaseElements.js";
-
+import {AvailButton, BoxForImage, ButtonBox, OrderBox, CalcButton} from "../components/purchaseElements.js";
+import Modal from "../components/Modal.js";
+import logo from "../logo.svg"
  
 const Purchase = () => {
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
     return (
         <div>
             <h1>Purchase</h1>
@@ -16,6 +25,32 @@ const Purchase = () => {
                 <CalcButton/>
                 <AvailButton/>
             </ButtonBox>
+            <OrderBox>
+                <button onClick={handleOpen}
+                style={{
+                    height: 35,
+                    width: 1000,
+                    alignSelf: "flex-end",
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    position: 'relative',
+                }}
+                >
+                Order Now</button>
+                <Modal isOpen={open} onClose={handleClose}>
+                    <>
+                        <h2>Purchase Complete</h2>
+                        <img src={logo} width = {50} height = {50} alt= "Logo"/>
+                        <h3>Details:</h3>
+                        <p>Order Total: a bajillion dollars</p>
+                        <p>Next Day Shipping</p>
+                    </>
+                </Modal>  
+            </OrderBox>
         </div>
     );
 };

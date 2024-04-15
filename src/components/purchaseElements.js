@@ -2,6 +2,21 @@ import styled from "styled-components";
 
 export const ButtonBox = styled.div`
     display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 414px;
+    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    padding: 20px;
+`;
+
+export const OrderBox = styled.div`
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+    margin: 20px;
     flex-wrap: wrap;
     justify-content: baseline;
     padding: 20px;
@@ -31,6 +46,10 @@ export const CalcButton = () => {
     return(
         <button onClick={RedirectToCalc}
         style={{
+            position: "relative",
+            right: 5,
+            height: 35,
+            width: 207,
             backgroundColor: "#007bff",
             color: "#fff",
             padding: "10px 20px",
@@ -48,6 +67,10 @@ export const AvailButton = () => {
     return(
         <button onClick={() => CheckAvail()}
         style={{
+            position: "relative",
+            left: 5,
+            height: 35,
+            width: 207,
             backgroundColor: "#007bff",
             color: "#fff",
             padding: "10px 20px",
@@ -57,6 +80,6 @@ export const AvailButton = () => {
             alignSelf: "center", 
         }}
         >
-        Check Avalailability</button>
+        Check Availability</button>
     );
 };
