@@ -1,6 +1,6 @@
 import React from "react";
 // import Cookies from 'js-cookie'; 
-import { MandMBox, YearForm, AddPhotosBox, VehicleDetailBox, 
+import { GeneralBox, BoxRow, YearForm, AddPhotoButton, PhotoColumn, MileageForm, VehicleDetailBox, 
     VehicleHistoryBox, VehicleConditionBox } from "../components/TradeInElements";
 import MakeForm from "../components/TradeInElements";
 
@@ -12,23 +12,50 @@ const TradeCalc = () => {
     return (
         <div>
             <h1>Trade In Calculator</h1>
-            <MandMBox>
-                <h3>Make and Model</h3>
-                <YearForm></YearForm>
-                <MakeForm></MakeForm>
-            </MandMBox>
-            <AddPhotosBox>
+            <div>
+                <BoxRow>
+                    <GeneralBox>
+                        <h3>Make and Model</h3>
+                        <p>Year: </p>
+                        <YearForm/>
+                        <MakeForm/>
+                        <MileageForm/>
+                    </GeneralBox>
+                    
+                </BoxRow>
+            </div>
+                <BoxRow>
+                <GeneralBox>
+                        <h3>Add Photos</h3>
+                        <p>Front</p>
+                        <p>Driver Side</p>
+                        <p>Passenger Side</p>
+                        <p>Back</p>
+                        <p>Interior</p>
+                        <PhotoColumn>
+                            <AddPhotoButton/>
+                            <AddPhotoButton/>
+                            <AddPhotoButton/>
+                            <AddPhotoButton/>
+                            <AddPhotoButton/>
+                        </PhotoColumn>
+                    </GeneralBox>
+                </BoxRow>
+            <div>
+                <VehicleDetailBox>
 
-            </AddPhotosBox>
-            <VehicleDetailBox>
+                </VehicleDetailBox>
+            </div>
+            <div>
+                <VehicleHistoryBox>
 
-            </VehicleDetailBox>
-            <VehicleHistoryBox>
-
-            </VehicleHistoryBox>
-            <VehicleConditionBox>
-                
-            </VehicleConditionBox>
+                </VehicleHistoryBox>
+            </div>
+            <div>
+                <VehicleConditionBox>
+                    
+                </VehicleConditionBox>
+            </div>
         </div>
     );
 };
