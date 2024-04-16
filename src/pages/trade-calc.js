@@ -1,7 +1,10 @@
 import React from "react";
 // import Cookies from 'js-cookie'; 
-import { GeneralBox, BoxRow, YearForm, AddPhotoButton, PhotoColumn, MileageForm, VehicleDetailBox, 
-    VehicleHistoryBox, VehicleConditionBox } from "../components/TradeInElements";
+import { GeneralBox, BoxRow, YearForm, EngineForm, AddPhotoButton, PhotoColumn, EngineColumn, DriTrForm, WheelsForm, CustomModCheck, ModDesc,
+    TransmColumn, MileageForm, VehicleDetailBox, VehicleHistoryBox, VehicleConditionBox, OrigOwner, ChkIssues, ChkRent, ExtCondCheck,
+    IntCondCheck, TransmForm, ExterColumn, InterColumn, MechColumn, MechCondCheck,
+    SubmitTradeButton,
+    SendToPayCalc} from "../components/TradeInElements";
 import MakeForm from "../components/TradeInElements";
 
 
@@ -16,16 +19,34 @@ const TradeCalc = () => {
                 <BoxRow>
                     <GeneralBox>
                         <h3>Make and Model</h3>
-                        <p>Year: </p>
                         <YearForm/>
                         <MakeForm/>
                         <MileageForm/>
                     </GeneralBox>
-                    
+                    <VehicleDetailBox>
+                        <h3>Vehicle Details</h3>
+                        <EngineColumn>
+                            <EngineForm/>
+                            <DriTrForm/>
+                            <CustomModCheck/>
+                        </EngineColumn>
+                        <TransmColumn>
+                            <TransmForm/>
+                            <WheelsForm/>
+                            <ModDesc/>
+                        </TransmColumn>
+                    </VehicleDetailBox>
+                    <VehicleHistoryBox>
+                        <h3>Vehicle History</h3>
+                        <OrigOwner/>
+                        <ChkIssues/>
+                        <ChkRent/>
+                    </VehicleHistoryBox>
                 </BoxRow>
             </div>
+            <div>
                 <BoxRow>
-                <GeneralBox>
+                    <GeneralBox>
                         <h3>Add Photos</h3>
                         <p>Front</p>
                         <p>Driver Side</p>
@@ -40,21 +61,21 @@ const TradeCalc = () => {
                             <AddPhotoButton/>
                         </PhotoColumn>
                     </GeneralBox>
+                    <VehicleConditionBox>
+                        <h3>Vehicle Condition</h3>
+                        <ExterColumn>
+                            <ExtCondCheck/>
+                        </ExterColumn>
+                        <InterColumn>
+                            <IntCondCheck/>
+                        </InterColumn>
+                        <MechColumn>
+                            <MechCondCheck/>
+                        </MechColumn>
+                    </VehicleConditionBox>
+                    <SubmitTradeButton/>
+                    <SendToPayCalc/>
                 </BoxRow>
-            <div>
-                <VehicleDetailBox>
-
-                </VehicleDetailBox>
-            </div>
-            <div>
-                <VehicleHistoryBox>
-
-                </VehicleHistoryBox>
-            </div>
-            <div>
-                <VehicleConditionBox>
-                    
-                </VehicleConditionBox>
             </div>
         </div>
     );
