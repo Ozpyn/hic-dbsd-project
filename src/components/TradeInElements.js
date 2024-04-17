@@ -1,13 +1,12 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 import styled from "styled-components";
 
 export const GeneralBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 23%;
-    height: 275px;
-    margin: 20px;
+    margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
     flex-direction: column;
@@ -17,15 +16,15 @@ export const BoxRow = styled.div`
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
+    display: flex;
+    justify-content: center;
 `;
 
 export const VehicleDetailBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 38%;
-    height: 275px;
-    margin: 20px;
+    margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
 `;
@@ -34,9 +33,8 @@ export const VehicleHistoryBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 20%;
     height: 275px;
-    margin: 20px;
+    margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
 `;
@@ -45,9 +43,16 @@ export const VehicleConditionBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 63%;
-    height: 275px;
-    margin: 20px;
+    margin: 1%;
+    flex-wrap: wrap;
+    padding: 20px;
+`;
+
+export const TradeInCalcBox = styled.div`
+    display: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
 `;
@@ -59,12 +64,11 @@ const StyledInput = styled.input`
   border: 1px solid lightblue;
 `;
 
-export const PhotoColumn = styled.div`
+export const PhotoRow = styled.div`
     display: flex;
     flex-wrap: nowrap;
-    flex-direction:column;
+    flex-direction:row;
     padding: 5px;
-    align-items: center;
 `;
 
 export const EngineColumn = styled.div`
@@ -122,15 +126,35 @@ export function YearForm() {
                     left: 12
                 }}
             >
-                <option value = "2024">2024</option>
-                <option value = "2023">2023</option>
-                <option value = "2022">2022</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
+                <option>2013</option>
+                <option>2012</option>
+                <option>2011</option>
+                <option>2010</option>
+                <option>2009</option>
+                <option>2008</option>
+                <option>2007</option>
+                <option>2006</option>
+                <option>2005</option>
+                <option>2004</option>
+                <option>2003</option>
+                <option>2002</option>
+                <option>2001</option>
+                <option>2000</option>
             </select>
         </form>
     )
 }
-
-
 
 export function MileageForm() {
     return (
@@ -150,25 +174,22 @@ export const AddPhotoButton = () => {
     const [buttonText, changeText] = useState("Upload Photo")
 
     return(
-        <button onClick={() => changeText("Photo Uploaded")}
-            style={{
-                position: "relative",
-                top: -187,
-                left: 100,
-                height: 20,
-                width: 130,
-                fontSize: 12,
-                backgroundColor: "#007bff",
-                marginBottom: 16.5,
-                color: "#fff",
-                padding: "1px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                alignItems: "center"
-            }}
-        >
-        {buttonText}</button>
+        <div style={{marginLeft: "auto"}}>
+            <button onClick={() => changeText("Photo Uploaded")}
+                style={{
+                    fontSize: 12,
+                    backgroundColor: "#007bff",
+                    marginBottom: 16.5,
+                    marginLeft: 50,
+                    color: "#fff",
+                    padding: "1px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                }}
+            >
+            {buttonText}</button>
+        </div>
     );
 };
 
@@ -177,14 +198,10 @@ export const SubmitTradeButton = () => {
     return(
         <button
             style={{
-                position: "relative",
-                top: -187,
-                left: 100,
-                height: 20,
-                width: 130,
+                marginLeft: "auto",
                 fontSize: 12,
                 backgroundColor: "#007bff",
-                marginBottom: 16.5,
+                width: 150,
                 color: "#fff",
                 padding: "1px 20px",
                 border: "none",
@@ -202,14 +219,11 @@ export const SendToPayCalc = () => {
     return(
         <button
             style={{
-                position: "relative",
-                top: -187,
-                left: 100,
-                height: 20,
-                width: 130,
+                marginRight: "auto",
                 fontSize: 12,
                 backgroundColor: "#007bff",
-                marginBottom: 16.5,
+                marginLeft: 10,
+                width: 150,
                 color: "#fff",
                 padding: "1px 20px",
                 border: "none",
@@ -533,17 +547,39 @@ export function ChkRent() {
     )
 }
 
-  
+export function CreateTradeVal() {
+    let randTradeVal = Math.floor(Math.random()* (10999 - 4999 + 1)) + 4999;
+    Cookies.set('trade-in-value', randTradeVal, {expires: 10});
+}
+
 export default function MakeForm() {
     const [make, setMake] = useState("N/A");
+
    
     const handleMakeChange = (event) => {
         setMake(event.target.value)
+        CreateTradeVal()
     }
     
-    const hondaModels = ["Civic", "Accord"]
-    const fordModels = ["Focus", "Escape", "Mustang"]
-    const bmwModels = ["M3", "M4", "XM"]
+    const hondaModels = ["Civic", "Accord", "CR-V", "Pilot", "Odyssey", "Fit", "HR-V", "Ridgeline", "Insight", "Passport"];
+    const fordModels = ["F-150", "Escape", "Focus", "Explorer", "Edge", "Mustang", "Fusion", "Ranger", "Expedition", "Transit"];
+    const toyotaModels = ["Corolla", "Camry", "RAV4", "Highlander", "Tacoma", "Prius", "Sienna", "Tundra", "4Runner", "C-HR"];
+    const chevroletModels = ["Silverado", "Equinox", "Tahoe", "Malibu", "Traverse", "Camaro", "Colorado", "Suburban", "Impala", "Blazer"];
+    const nissanModels = ["Altima", "Rogue", "Sentra", "Pathfinder", "Maxima", "Murano", "Versa", "Titan", "Frontier", "Armada"];
+    const mercedesBenzModels = ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLA", "A-Class", "CLA", "GLS", "G-Class"];
+    const bmwModels = ["3 Series", "5 Series", "X3", "X5", "X1", "7 Series", "4 Series", "X7", "2 Series", "6 Series"];
+    const audiModels = ["A3", "A4", "A6", "Q5", "Q7", "Q3", "A5", "Q8", "A7", "TT"];
+    const volkswagenModels = ["Jetta", "Passat", "Tiguan", "Golf", "Atlas", "Arteon", "Beetle", "Atlas Cross Sport", "ID.4", "Touareg"];
+    const hyundaiModels = ["Elantra", "Sonata", "Tucson", "Santa Fe", "Kona", "Palisade", "Accent", "Venue", "Veloster", "Ioniq"];
+    const kiaModels = ["Optima", "Forte", "Sorento", "Sportage", "Soul", "Telluride", "Rio", "Stinger", "Niro", "Cadenza"];
+    const subaruModels = ["Forester", "Outback", "Crosstrek", "Legacy", "Impreza", "Ascent", "WRX", "BRZ", "XV"];
+    const lexusModels = ["RX", "ES", "NX", "IS", "UX", "GX", "LS", "RC", "LX", "LC"];
+    const jeepModels = ["Wrangler", "Grand Cherokee", "Cherokee", "Compass", "Renegade", "Gladiator", "Wagoneer", "Grand Wagoneer"];
+    const volvoModels = ["XC90", "XC60", "S60", "S90", "V60", "V90", "XC40", "V40", "C40 Recharge", "XC100 Recharge"];
+    const teslaModels = ["Model S", "Model 3", "Model X", "Model Y", "Cybertruck", "Roadster"];
+    const mazdaModels = ["Mazda3", "Mazda6", "CX-5", "CX-9", "CX-3", "MX-5 Miata", "CX-30", "MX-30", "RX-7", "RX-8"];
+    const gmcModels = ["Sierra", "Terrain", "Acadia", "Yukon", "Canyon", "Savana"];
+    const buickModels = ["Encore", "Enclave", "Regal", "Envision"];
 
     let type = null
     let options = null
@@ -554,6 +590,38 @@ export default function MakeForm() {
         type = fordModels
     } else if (make === "BMW") {
         type = bmwModels
+    } else if (make === "Toyota") {
+        type = toyotaModels;
+    } else if (make === "Chevrolet") {
+        type = chevroletModels;
+    } else if (make === "Nissan") {
+        type = nissanModels;
+    } else if (make === "Mercedes-Benz") {
+        type = mercedesBenzModels;
+    } else if (make === "Audi") {
+        type = audiModels;
+    } else if (make === "Volkswagen") {
+        type = volkswagenModels;
+    } else if (make === "Hyundai") {
+        type = hyundaiModels;
+    } else if (make === "Kia") {
+        type = kiaModels;
+    } else if (make === "Subaru") {
+        type = subaruModels;
+    } else if (make === "Lexus") {
+        type = lexusModels;
+    } else if (make === "Jeep") {
+        type = jeepModels;
+    } else if (make === "Volvo") {
+        type = volvoModels;
+    } else if (make === "Tesla") {
+        type = teslaModels;
+    } else if (make === "Mazda") {
+        type = mazdaModels;
+    } else if (make === "GMC") {
+        type = gmcModels;
+    } else if (make === "Buick") {
+        type = buickModels;
     }
 
     if (type) {
@@ -571,9 +639,25 @@ export default function MakeForm() {
                     }}
                 >
                     <option>N/A</option>
+                    <option>Toyota</option>
                     <option>Honda</option>
                     <option>Ford</option>
+                    <option>Chevrolet</option>
+                    <option>Nissan</option>
+                    <option>Mercedes-Benz</option>
                     <option>BMW</option>
+                    <option>Audi</option>
+                    <option>Volkswagen</option>
+                    <option>Hyundai</option>
+                    <option>Kia</option>
+                    <option>Subaru</option>
+                    <option>Lexus</option>
+                    <option>Jeep</option>
+                    <option>Volvo</option>
+                    <option>Tesla</option>
+                    <option>Mazda</option>
+                    <option>GMC</option>
+                    <option>Buick</option>
                 </select>
             </div>
             <div style={{marginBottom: 30}}>
@@ -589,5 +673,6 @@ export default function MakeForm() {
             </div>
         </form>
     )
+
 }
 

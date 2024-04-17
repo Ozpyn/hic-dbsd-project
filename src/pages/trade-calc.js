@@ -1,10 +1,11 @@
 import React from "react";
-// import Cookies from 'js-cookie'; 
-import { GeneralBox, BoxRow, YearForm, EngineForm, AddPhotoButton, PhotoColumn, EngineColumn, DriTrForm, WheelsForm, CustomModCheck, ModDesc,
+//import Cookies from 'js-cookie'; 
+import { GeneralBox, BoxRow, YearForm, EngineForm, AddPhotoButton, PhotoRow, EngineColumn, DriTrForm, WheelsForm, CustomModCheck, ModDesc,
     TransmColumn, MileageForm, VehicleDetailBox, VehicleHistoryBox, VehicleConditionBox, OrigOwner, ChkIssues, ChkRent, ExtCondCheck,
     IntCondCheck, TransmForm, ExterColumn, InterColumn, MechColumn, MechCondCheck,
     SubmitTradeButton,
-    SendToPayCalc} from "../components/TradeInElements";
+    SendToPayCalc,
+    TradeInCalcBox} from "../components/TradeInElements";
 import MakeForm from "../components/TradeInElements";
 
 
@@ -48,18 +49,26 @@ const TradeCalc = () => {
                 <BoxRow>
                     <GeneralBox>
                         <h3>Add Photos</h3>
-                        <p>Front</p>
-                        <p>Driver Side</p>
-                        <p>Passenger Side</p>
-                        <p>Back</p>
-                        <p>Interior</p>
-                        <PhotoColumn>
-                            <AddPhotoButton/>
-                            <AddPhotoButton/>
-                            <AddPhotoButton/>
-                            <AddPhotoButton/>
-                            <AddPhotoButton/>
-                        </PhotoColumn>
+                        <PhotoRow>
+                            <label for = 'front'>Front</label>
+                            <AddPhotoButton id = 'front'/>
+                        </PhotoRow>
+                        <PhotoRow>
+                            <label for = 'driver'>Driver Side</label>
+                            <AddPhotoButton id = 'driver'/>
+                        </PhotoRow>
+                        <PhotoRow>
+                            <label for = 'pass'>Passenger Side</label>
+                            <AddPhotoButton id = 'pass'/>
+                        </PhotoRow>
+                        <PhotoRow>
+                            <label for = 'back'>Back</label>
+                            <AddPhotoButton id = 'back'/>
+                        </PhotoRow>
+                        <PhotoRow>
+                            <label for = 'int'>Interior</label>
+                            <AddPhotoButton id = 'int'/>
+                        </PhotoRow>
                     </GeneralBox>
                     <VehicleConditionBox>
                         <h3>Vehicle Condition</h3>
@@ -73,8 +82,17 @@ const TradeCalc = () => {
                             <MechCondCheck/>
                         </MechColumn>
                     </VehicleConditionBox>
-                    <SubmitTradeButton/>
-                    <SendToPayCalc/>
+                </BoxRow>
+            </div>
+            
+            <div>
+                <BoxRow>
+                    <TradeInCalcBox>
+                        <PhotoRow>
+                            <SubmitTradeButton/>
+                            <SendToPayCalc/>
+                        </PhotoRow>
+                    </TradeInCalcBox>
                 </BoxRow>
             </div>
         </div>
