@@ -6,6 +6,7 @@ export const SectionHeader = styled.h1`
     padding-left: 20px;
 `;
 
+
 export const Listing = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -16,7 +17,7 @@ export const Listing = styled.div`
 // Box to add vehicle + details to
 export const BoxForListing = styled.div`
     position: relative;
-    width: 300px;
+    width: 15%;
     margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -27,16 +28,24 @@ export const BoxForListing = styled.div`
 `;
 
 
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+`;
+
+
 const RedirectToSearch = () => {
     window.location.href = "/search";
 };
+
 
 export const MoreVehiclesButton = () => {
     return (
         <button onClick={RedirectToSearch}
             style= {{
-                backgroundColor: "#666",
-                color: "#fff",
+                backgroundColor: "#fff",
+                color: "#00000",
                 padding: "10px",
                 border: "none",
                 borderRadius: "5px",
@@ -46,13 +55,16 @@ export const MoreVehiclesButton = () => {
             }}
         >
             <h2>More Vehicles</h2> 
+            <h1>&rarr;</h1>
         </button>
     )
 };
 
+
 const RedirectToPurchasePage = () => {
     window.location.href = "/purchase";
 };
+
 
 export const PurchaseButton = () => {
     return(
@@ -60,13 +72,39 @@ export const PurchaseButton = () => {
         style= {{
             backgroundColor: "#007bff",
             color: "#fff",
-            padding: "10px 20px",
+            height: "100%",
+            width: "45%",
+            margin: "2%",
+            padding: "5% 10%",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            alignSelf: "center", 
+            marginTop: "auto",
         }}
         >
         Purchase</button>
+    );
+};
+
+
+const RedirectToSaveVehiclesPage = () => {
+    window.location.href = "/saved-vehicles";
+};
+
+export const SaveVehicleButton = () => {
+    return(
+        <button onClick={RedirectToSaveVehiclesPage}
+        style= {{
+            backgroundColor: "#007bff",
+            color: "#fff",
+            height: "100%",
+            width: "45%",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            marginTop: "auto",
+        }}
+        >
+        Save Vehicle</button>
     );
 };

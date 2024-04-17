@@ -51,3 +51,53 @@ white-space: nowrap; */
         display: none;
     }
 `;
+
+
+/* style for the search bar */
+export const SearchContainer = styled.div`
+    display: flex;
+    position: fixed;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px 40px;
+    margin-left: 55%;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+/* style for the text input */
+export const SearchInput = styled.input`
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    padding: 5px;   
+    font-size: 16px;
+    margin-right: 20%;
+    margin-left: -12%;
+`;
+
+/* location to have the button redirect to for now */ 
+export const RedirectToSearchPage = () => {
+    window.location.href="/search"
+};
+
+/* style for the search button */
+export const SearchButton = () => {
+    return(
+        <button onClick={RedirectToSearchPage}
+        style= {{
+            backgroundColor: "#007bff",
+            color: "white",
+            float: "left",
+            width: "30%",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 20px",
+            margin: "auto",
+            cursor: "pointer",
+        }}
+        >
+        Search</button>
+    );
+};

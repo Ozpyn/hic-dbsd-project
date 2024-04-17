@@ -1,5 +1,5 @@
 import React from "react";
-import {Listing, BoxForListing, PurchaseButton, SectionHeader, MoreVehiclesButton} from "../components/Vehicle-Listings.js";
+import {Listing, BoxForListing, PurchaseButton, SectionHeader, MoreVehiclesButton, SaveVehicleButton, ButtonContainer} from "../components/Vehicle-Listings.js";
 
 const Home = () => {
     return (
@@ -20,7 +20,12 @@ const Home = () => {
                         <p>Brand New</p>
                         <p>$19,740</p> {/* msrp for Honda Civic LX (auto) sedan*/}
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -33,7 +38,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -46,7 +56,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -58,7 +73,12 @@ const Home = () => {
                         <p>Brand New</p>
                         <p>$23,170</p> {/* actual msrp for the ford fusion s sedan*/}
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -82,7 +102,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -95,7 +120,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -108,7 +138,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
@@ -121,7 +156,12 @@ const Home = () => {
                         <p>10,000 Miles</p>
                         <p>$20,000</p>
                         <p>Other vehicle details we want</p>
-                        <PurchaseButton/>
+
+                        <ButtonContainer>
+                            <PurchaseButton/>
+                            <SaveVehicleButton/>
+                        </ButtonContainer>
+
                     </BoxForListing>
 
                     <BoxForListing>
