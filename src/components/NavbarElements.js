@@ -56,12 +56,11 @@ white-space: nowrap; */
 /* style for the search bar */
 export const SearchContainer = styled.div`
     display: flex;
-    position: fixed;
     background-color: #fff;
     border-radius: 5px;
     padding: 8px 40px;
-    margin-left: 55%;
-    justify-content: space-between;
+    margin-left: 5%;
+    justify-content: flex-end;
     align-items: center;
 `;
 
@@ -74,7 +73,7 @@ export const SearchInput = styled.input`
     padding: 5px;   
     font-size: 16px;
     margin-right: 20%;
-    margin-left: -12%;
+    margin-left: 20%;
 `;
 
 /* location to have the button redirect to for now */ 
@@ -90,12 +89,13 @@ export const SearchButton = () => {
             backgroundColor: "#007bff",
             color: "white",
             float: "left",
-            width: "30%",
+            width: "40%",
             border: "none",
             borderRadius: "5px",
-            padding: "10px 20px",
+            padding: "10px 25px",
             margin: "auto",
             cursor: "pointer",
+            marginRight: "-10%",
         }}
         >
         Search</button>
