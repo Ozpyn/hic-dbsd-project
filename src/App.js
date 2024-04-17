@@ -33,8 +33,8 @@ function App() {
                     element={<SignIn />}
                 />
                 <Route path="/purchase" element={<Purchase />} />
-                <Route path="/about-vehicle" element={<AboutVehicle/>} />
-                <Route path="/search" element={<Search/>} />
+                <Route path="/about-vehicle" element={<AboutVehicle />} />
+                <Route path="/search" element={<Search />} />
                 <Route path="/ownership" element={<Ownership />} />
             </Routes>
             <Footer />

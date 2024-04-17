@@ -1,52 +1,72 @@
 import React, { useState, useEffect } from "react";
-const apiUrl = process.env.DBURL;
+import axios from "axios";
+import env from "react-dotenv";
+// import dotenv from 'dotenv';
+
+const apiUrl = env.APIURL;
 
 const Ownership = () => {
     // State to store the fetched customer data
-    const [customerData, setCustomerData] = useState([]);
+    const [vehicleData, setVehicleData] = useState(null);
+    // State to store loading state
+    const [loading, setLoading] = useState(true);
+    // State to store error message
+    const [error, setError] = useState(null);
 
     // Function to fetch customer data from the API
-    const fetchCustomerData = async () => {
+    const fetchVehicleData = async () => {
         try {
-            // Make API request to fetch customer data
-            const response = await fetch(`${apiUrl}/customers`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch customer data');
-            }
+            // Make API request to fetch customer data using Axios
+            const response = await axios.get(`${apiUrl}/getAllVehicles`);
             // Parse the JSON response
-            const data = await response.json();
+            const data = response.data;
             // Set the fetched customer data in the state
-            setCustomerData(data);
+            setVehicleData(data);
+            // Set loading state to false
+            setLoading(false);
         } catch (error) {
-            console.error('Error fetching customer data:', error);
+            console.error('Error fetching vehicle data:', error);
+            // Set error state to display error message
+            setError(error.message);
+            // Set loading state to false
+            setLoading(false);
         }
     };
 
     // useEffect hook to fetch customer data when component mounts
     useEffect(() => {
-        fetchCustomerData();
+        fetchVehicleData();
     }, []);
 
     return (
         <div>
             <h2>Vehicle List</h2>
-            {/* Display vehicle lists for each customer */}
-            {customerData.map(customer => (
-                <div key={customer.customerId}>
-                    <h3>Customer {customer.customerId}</h3>
-                    {customer.vehicles && customer.vehicles.length > 0 ? (
-                        // If customer has vehicles, display them
-                        <ul>
-                            {customer.vehicles.map(vehicle => (
-                                <li key={vehicle.VIN}>{vehicle.VIN}</li>
-                            ))}
-                        </ul>
-                    ) : (
-                        // If customer has no vehicles, display a message
-                        <p>No vehicles found for this customer</p>
-                    )}
-                </div>
-            ))}
+            {loading ? (
+                <p>Loading...</p>
+            ) : error ? (
+                <p>Error: {error}</p>
+            ) : (
+                <>
+                    <pre>{JSON.stringify(vehicleData, null, 2)}</pre>
+                    <div>
+                        {vehicleData.map((vehicle, index) => (
+                            <div key={index}>
+                                <h3>Vehicle {index + 1}</h3>
+                                <p><strong>VIN:</strong> {vehicle.vin}</p>
+                                <p><strong>Make:</strong> {vehicle.make}</p>
+                                <p><strong>Model:</strong> {vehicle.model}</p>
+                                <p><strong>Year:</strong> {vehicle.year}</p>
+                                <p><strong>Color:</strong> {vehicle.color}</p>
+                                <p><strong>Type:</strong> {vehicle.type}</p>
+                                <p><strong>Mileage:</strong> {vehicle.mileage}</p>
+                                <p><strong>MPG (City):</strong> {vehicle['mpg-city']}</p>
+                                <p><strong>MPG (Highway):</strong> {vehicle['mpg-hwy']}</p>
+                                <p><strong>MSRP:</strong> ${vehicle.msrp}</p>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
