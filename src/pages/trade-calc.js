@@ -72,6 +72,7 @@ const TradeCalc = () => {
                     </GeneralBox>
                     <VehicleConditionBox>
                         <h3>Vehicle Condition</h3>
+                        <p>Check if There are any Problems or Issues</p>
                         <ExterColumn>
                             <ExtCondCheck/>
                         </ExterColumn>
