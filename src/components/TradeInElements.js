@@ -33,7 +33,6 @@ export const VehicleHistoryBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    height: 275px;
     margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
@@ -110,6 +109,8 @@ export const MechColumn = styled.div`
     padding: 5px;
 `;
 
+// style and funtionality for the year dropdown box 
+// in the Make and Model box
 export function YearForm() {
     const [year, setYear] = useState("2024");
 
@@ -156,6 +157,8 @@ export function YearForm() {
     )
 }
 
+// style and funtionality for the Mileage input 
+// in the Make and Model box
 export function MileageForm() {
     return (
         <form>
@@ -170,6 +173,8 @@ export function MileageForm() {
     )
 }
 
+// style and funtionality for the "Add Photo" buttons 
+// as well as their labels in the Add Photos box
 export const AddPhotoButton = () => {
     const [buttonText, changeText] = useState("Upload Photo")
 
@@ -193,10 +198,19 @@ export const AddPhotoButton = () => {
     );
 };
 
+// style and funtionality for the "Submit Trade" button
+// at the bottom and end of the form
 export const SubmitTradeButton = () => {
-    
+    const [buttonText, changeText] = useState("Get Trade-In Value")
+
+    function DisplayTradeVal() {
+        const tradVal = "Your Trade-In Value is $" 
+            + Cookies.get('trade-in-value') || 0;   // Changes the button text to display
+        changeText(tradVal);                        // the users trade in value
+    }
+
     return(
-        <button
+        <button onClick={ () => DisplayTradeVal()}
             style={{
                 marginLeft: "auto",
                 fontSize: 12,
@@ -210,14 +224,21 @@ export const SubmitTradeButton = () => {
                 alignItems: "center"
             }}
         >
-        Get Trade-In Value</button>
+        {buttonText}</button>
     );
 };
 
+// function to redirect the user to the payment calculator
+const RedirectToCalc = () => {
+    window.location.href = "/pay-calc";
+};
+
+// Button using the redirect function to take the 
+// user to the payment calculator upon click
 export const SendToPayCalc = () => {
     
     return(
-        <button
+        <button onClick={RedirectToCalc}
             style={{
                 marginRight: "auto",
                 fontSize: 12,
@@ -236,6 +257,8 @@ export const SendToPayCalc = () => {
     );
 };
 
+// style and funtionality for the engine dropdown box 
+// in the Vehicle Details box
 export function EngineForm() {
     const [engine, setEngine] = useState("Stock");
 
@@ -260,6 +283,8 @@ export function EngineForm() {
     )
 };
 
+// style and funtionality for the transmission dropdown box 
+// in the Vehicle Details box
 export function TransmForm() {
     const [transm, setTransm] = useState("Stock");
 
@@ -284,6 +309,51 @@ export function TransmForm() {
     )
 };
 
+// style and funtionality for the wheel dropdown box 
+// in the Vehicle Details box
+export function WheelsForm() {
+    const [wheels, setWheels] = useState("Stock");
+
+    const handleChange = (event) => {
+        setWheels(event.target.value)
+    }
+
+    return (
+        <form style={{marginTop: 30}}>
+            <label for = 'wheelsInp'>Wheels:</label>
+            <select id ='wheelsInp' value = {wheels} onChange = {handleChange}
+                style = {{
+                    position: "relative",
+                    left: 12
+                }}
+            >
+                <option>Stock</option>
+                <option>Custom-Alloy</option>
+                <option>Custom-Steel</option>
+            </select>
+        </form>
+    )
+};
+
+// style and funtionality for the custom modification details text area 
+// in the Vehicle Details box
+export function ModDesc() {
+    return (
+        <form>
+            <p style={{marginTop: 30, fontSize: 15}}>Custom Modification in Detail:</p>
+            <textarea type ="text" placeholder = "Enter a description of your custom modifications if necessary..."
+                style = {{
+                    resize: "none",
+                    height: 50,
+                    width: 250,
+                }}
+            ></textarea>
+        </form>
+    )
+}
+
+// style and funtionality for the Drive Train dropdown box 
+// in the Vehicle Details box
 export function DriTrForm() {
     const [dritr, setDriTr] = useState("FWD");
 
@@ -309,6 +379,8 @@ export function DriTrForm() {
     )
 };
 
+// style and funtionality for the custom modification checkboxes 
+// in the Vehicle Details box
 export function CustomModCheck() {
     return(
         <form
@@ -335,6 +407,8 @@ export function CustomModCheck() {
     )
 }
 
+// style and funtionality for the exterior checkboxes 
+// in the Vehicle Condition box
 export function ExtCondCheck() {
     return(
         <form
@@ -344,7 +418,6 @@ export function ExtCondCheck() {
                 alignItems: 'center',
             }}
         >
-            
             <div style = {{marginLeft: 100}}>
                 <label>Exterior</label>
                 <div style={{marginBottom: 15, marginLeft: 10}}>
@@ -372,6 +445,8 @@ export function ExtCondCheck() {
     )
 }
 
+// style and funtionality for the interior checkboxes 
+// in the Vehicle Condition box
 export function IntCondCheck() {
     return(
         <form
@@ -402,6 +477,8 @@ export function IntCondCheck() {
     )
 }
 
+// style and funtionality for the mechanical checkboxes 
+// in the Vehicle Condition box
 export function MechCondCheck() {
     return(
         <form
@@ -436,45 +513,8 @@ export function MechCondCheck() {
     )
 }
 
-export function WheelsForm() {
-    const [wheels, setWheels] = useState("Stock");
-
-    const handleChange = (event) => {
-        setWheels(event.target.value)
-    }
-
-    return (
-        <form style={{marginTop: 30}}>
-            <label for = 'wheelsInp'>Wheels:</label>
-            <select id ='wheelsInp' value = {wheels} onChange = {handleChange}
-                style = {{
-                    position: "relative",
-                    left: 12
-                }}
-            >
-                <option>Stock</option>
-                <option>Custom-Alloy</option>
-                <option>Custom-Steel</option>
-            </select>
-        </form>
-    )
-};
-
-export function ModDesc() {
-    return (
-        <form>
-            <p style={{marginTop: 30, fontSize: 15}}>Custom Modification in Detail:</p>
-            <textarea type ="text" placeholder = "Enter a description of your custom modifications if necessary..."
-                style = {{
-                    resize: "none",
-                    height: 50,
-                    width: 250,
-                }}
-            ></textarea>
-        </form>
-    )
-}
-
+// style and funtionality for the original owner dropdown box 
+// in the Vehicle History box
 export function OrigOwner() {
     const [own, setOwn] = useState("");
 
@@ -499,6 +539,8 @@ export function OrigOwner() {
     )
 }
 
+// style and funtionality for the previous issues dropdown box 
+// in the Vehicle History box
 export function ChkIssues() {
     const [issues, setIssues] = useState("");
 
@@ -523,6 +565,8 @@ export function ChkIssues() {
     )
 }
 
+// style and funtionality for the vehicle rented dropdown box 
+// in the Vehicle History box
 export function ChkRent() {
     const [rented, setRented] = useState("");
 
@@ -547,19 +591,22 @@ export function ChkRent() {
     )
 }
 
+// functionality of creating the trade-in value
 export function CreateTradeVal() {
-    let randTradeVal = Math.floor(Math.random()* (10999 - 4999 + 1)) + 4999;
-    Cookies.set('trade-in-value', randTradeVal, {expires: 10});
+    let randTradeVal = Math.floor(Math.random()* (10999 - 4999 + 1)) + 4999;    // makes trade-in value 
+    Cookies.set('trade-in-value', randTradeVal, {expires: 10});                 // between 4999 and 10999
 }
 
+// style and funtionality for the make and model dropdown boxes
+// in the Make and Model box
 export default function MakeForm() {
     const [make, setMake] = useState("N/A");
 
    
     const handleMakeChange = (event) => {
-        setMake(event.target.value)
-        CreateTradeVal()
-    }
+        setMake(event.target.value)         // handles the event of changing the make 
+        CreateTradeVal()                    // all awhile creating the trade-in value for the user
+    }                                       // using the called CreateTradeVal function
     
     const hondaModels = ["Civic", "Accord", "CR-V", "Pilot", "Odyssey", "Fit", "HR-V", "Ridgeline", "Insight", "Passport"];
     const fordModels = ["F-150", "Escape", "Focus", "Explorer", "Edge", "Mustang", "Fusion", "Ranger", "Expedition", "Transit"];
@@ -625,11 +672,12 @@ export default function MakeForm() {
     }
 
     if (type) {
-        options = type.map((el) => <option key = {el}>{el}</option>)
-    }
+        options = type.map((el) => <option key = {el}>{el}</option>)    // sets the options of the 
+    }                                                                   // model dropdown box
 
     return (
         <form>
+            {/*Make: Dropdown*/}
             <div style={{marginBottom: 30}}>
                 <label for = 'dropdown'>Make: </label>
                 <select id = 'dropdown' onChange = {handleMakeChange}
@@ -660,6 +708,7 @@ export default function MakeForm() {
                     <option>Buick</option>
                 </select>
             </div>
+            {/*Model: Dropdown*/}
             <div style={{marginBottom: 30}}>
                 <label for = 'dropdown'>Model: </label>
                 <select id = 'dropdown'
