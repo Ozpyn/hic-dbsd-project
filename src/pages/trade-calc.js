@@ -8,10 +8,6 @@ import { GeneralBox, BoxRow, YearForm, EngineForm, AddPhotoButton, PhotoRow, Eng
     TradeInCalcBox} from "../components/TradeInElements";
 import MakeForm from "../components/TradeInElements";
 
-
-// To save the trade-in value use the following:
-// Cookies.set('trade-in-value', *value*, {expires: 10});
-
 const TradeCalc = () => {
     return (
         <div>

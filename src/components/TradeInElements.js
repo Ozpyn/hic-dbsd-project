@@ -33,7 +33,6 @@ export const VehicleHistoryBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
-    height: 275px;
     margin: 1%;
     flex-wrap: wrap;
     padding: 20px;
