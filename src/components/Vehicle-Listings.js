@@ -67,14 +67,19 @@ export const MoreVehiclesButton = () => {
 };
 
 
-const RedirectToPurchasePage = () => {
+const RedirectToPurchasePage = (vin) => {
     window.location.href = "/purchase";
+    Cookies.set('purchaseVehicle', vin);
 };
 
+export const PurchaseButton = ({ vin }) => {
+    const handleClick = () => {
+        RedirectToPurchasePage(vin);
+    };
 
-export const PurchaseButton = () => {
     return (
-        <button onClick={RedirectToPurchasePage}
+        <button
+            onClick={handleClick}
             style={{
                 backgroundColor: "#007bff",
                 color: "#fff",
@@ -88,7 +93,8 @@ export const PurchaseButton = () => {
                 marginTop: "auto",
             }}
         >
-            Purchase</button>
+            Purchase
+        </button>
     );
 };
 
@@ -201,8 +207,8 @@ const ListingTile = ({ vin }) => {
             )}
 
             <ButtonContainer>
-                <PurchaseButton />
-                <SaveVehicleButton />
+                <PurchaseButton vin={vin} />
+                <SaveVehicleButton vin={vin} />
             </ButtonContainer>
         </BoxForListing>
     );
