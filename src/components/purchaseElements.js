@@ -1,53 +1,93 @@
+import { useState } from "react";
 import styled from "styled-components";
 
+export const StyledInput = styled.input`
+    display: relative;
+    font-size: 14px; 
+    padding: 1px; 
+    border: 1px solid lightblue;
+`;
+
 export const GeneralColumn = styled.div`
-    display: inline grid;
+    display: inline-grid;
     flex-wrap: nowrap;
-    flex-direction:column;
+    margin: 1%;
     padding: 5px;
 `;
+
 export const GeneralRow = styled.div`
     display: flex;
     flex-wrap: nowrap;
-    flex-direction:row;
+    flex-direction: row;
     padding: 5px;
 `;
 
 export const BoxForImage = styled.div`
-    position: relative;
-    margin: 1%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    align-self: start;
+    margin: 1%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 export const VehicleDetailBox = styled.div`
     display: relative;
     border: 1px solid #ccc;
-    border-radius: 5px;
     margin: 1%;
+    border-radius: 5px;
+    align-self: end;
+    flex-wrap: wrap;
+    padding: 20px;
+`;
+
+export const PriceBox = styled.div`
+    display: flex;
+    border: 1px solid #ccc;
+    margin: 1%;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    padding: 20px;
+`;
+
+export const VehLocBox = styled.div`
+    display: grid;
+    border: 1px solid #ccc;
+    margin: 1%;
+    border-radius: 5px;
+    align-self: end;
+    flex-wrap: wrap;
+    padding: 20px;
+`;
+
+export const CurrentPriceBox = styled.div`
+    display: grid;
+    border: 1px solid #ccc;
+    margin: 1%;
+    border-radius: 5px;
     flex-wrap: wrap;
     padding: 20px;
 `;
 
 export const ButtonBox = styled.div`
-    display: flex;
+    display: relative;
     border: 1px solid #ccc;
+    margin: 1%;
     border-radius: 5px;
-    margin: 20px;
+    align-self: end;
     flex-wrap: wrap;
     padding: 20px;
 `;
 
-export const OrderBox = styled.div`
+export const OrderFormS = styled.div`
     display: flex;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 20px;
     flex-wrap: wrap;
     padding: 20px;
 `;
+
+
 
 const RedirectToCalc = () => {
     window.location.href = "/pay-calc";
@@ -62,10 +102,10 @@ export const CalcButton = () => {
         <button onClick={RedirectToCalc}
         style={{
             position: "relative",
-            right: 5,
             backgroundColor: "#007bff",
             color: "#fff",
             padding: "10px 20px",
+            margin: "3%",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
@@ -81,10 +121,10 @@ export const AvailButton = () => {
         <button onClick={() => CheckAvail()}
         style={{
             position: "relative",
-            left: 5,
             backgroundColor: "#007bff",
             color: "#fff",
             padding: "10px 20px",
+            margin: "3%",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
@@ -94,6 +134,63 @@ export const AvailButton = () => {
         Check Availability</button>
     );
 };
+
+export const AddPayMthdButton = ({flagFunc, buttonT}) => {
+    return(
+        <div>
+            <button onClick={flagFunc}
+                style={{
+                    position: "relative",
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    margin: "auto",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    alignSelf: "end"
+                }}
+            >
+            {buttonT}</button>
+        </div>
+    );
+};
+{/* 
+export const OrderConfirmButton = () => {
+    const [buttonText, changeText] = useState("Confirm order")
+
+    const PayFlag = () => {
+        changeText("Virtual Payment Connected");
+        value = true;
+    }
+
+    return(
+        <div>
+            <button onClick={() => PayFlag()}
+                style={{
+                    position: "relative",
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    margin: "auto",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    alignSelf: "end"
+                }}
+            >
+            {buttonText}</button>
+        </div>
+    );
+};
+*/}
+
+export const CondDisp = (fetchedVal) => {
+    const {value} = fetchedVal
+    return (
+        <label style={{marginRight: 20, fontSize: 15}}><strong>Condition:</strong> {value}</label>
+    )
+}
 
 export const VinDisp = (fetchedVal) => {
     const {value} = fetchedVal
@@ -162,5 +259,12 @@ export const MpgCDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Mpg-City:</strong> {value} mpg</label>
+    )
+}
+
+export const MSRPDisp = (fetchedVal) => {
+    const {value} = fetchedVal
+    return (
+        <label style={{marginRight: 20, fontSize: 15}}><strong>MSRP:</strong> ${value}</label>
     )
 }
