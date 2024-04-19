@@ -57,10 +57,10 @@ export const TradeInCalcBox = styled.div`
 `;
 
 const StyledInput = styled.input`
-  display: relative;
-  font-size: 14px; 
-  padding: 1px; 
-  border: 1px solid lightblue;
+    display: relative;
+    font-size: 14px; 
+    padding: 1px; 
+    border: 1px solid lightblue;
 `;
 
 export const PhotoRow = styled.div`

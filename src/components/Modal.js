@@ -1,12 +1,11 @@
 // import styled from "styled-components";
 import React from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, children }) => {
     if (!isOpen) return null;
  
     return (
         <div
-            onClick={onClose}
             style={{
                 position: "fixed",
                 top: 0,
