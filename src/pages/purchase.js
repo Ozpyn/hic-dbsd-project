@@ -1,56 +1,31 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import env from "react-dotenv";
 import axios from "axios";
 import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, StyleDisp, ColorDisp, TypeDisp, 
-    MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox} from "../components/purchaseElements.js";
+    MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox, OrderNowButton} from "../components/purchaseElements.js";
 import Modal from "../components/Modal.js";
 import logo from "../logo.svg"
  
 const Purchase = () => {
     const apiUrl = env.APIURL;                              // saving the db API url as a const
+    const vin = "ABC123";
     const [open, setOpen] = useState(false);                // declaration of the variables passed in Modal
-    const [openErrPay, setOpenErrPay] = useState(false);                // declaration of the variables passed in Error Modal
-    const [openErrFrm, setOpenErrFrm] = useState(false);                // declaration of the variables passed in Error Modal
-    const [payErrTxt, setPayErrTxt] = useState("");                // declaration of the variables passed in Error Modal
-    const [frmErrTxt, setFrmErrTxt] = useState("");                // declaration of the variables passed in Error Modal
-    const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
-    const [loading, setLoading] = useState(true);           // store loading state
-    const [error, setError] = useState(null);               // store error message
+    const [openErrPay, setOpenErrPay] = useState(false);    // declaration of the variables passed in Error Modal
+    const [openErrFrm, setOpenErrFrm] = useState(false);    // declaration of the variables passed in Error Modal
+    const [payErrTxt, setPayErrTxt] = useState("");         // declaration of the variables passed in Error Modal
+    const [frmErrTxt, setFrmErrTxt] = useState("");         // declaration of the variables passed in Error Modal
     
+    const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
+    const [error, setError] = useState(null);               // store error message
+    const [vehicleFeatures, setVehicleFeatures] = useState([]);
+    const [vehiclePhotos, setVehiclePhotos] = useState([]);
+
     const [modalTitle, changeModText] = useState("Ready to Order?");   // declaration of the variables passed in Modal
-    const [orderTot, changeTotalText] = useState("You Will Owe");
-    function changeModTitle() {                                        //function to change the modal title
-        changeModText("Purchase Complete");
-    };
-    function setOrderTotal() {                                         //function to change order total text in modal
-        changeTotalText("Order Total");
-    };
+    const [orderTot, changeTotalText] = useState("You Will Owe"); 
 
-    const fetchVehicleData = async () => {                  // fetch vehicle data from API
-        try {
-            // Make API request to fetch customer data using Axios
-            const response = await axios.get(`${apiUrl}/getAllVehicles`);
-            // Parse the JSON response
-            const data = response.data;
-            // Set the fetched customer data in the state
-            setVehicleData(data);
-            // Set loading state to false
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching vehicle data:', error);
-            // Set error state to display error message
-            setError(error.message);
-            // Set loading state to false
-            setLoading(false);
-        }
-    };
-
-    const palceholderVal = 19780;
     const tradVal = Cookies.get('trade-in-value');
-    const orderPrice = palceholderVal - tradVal;
-    // Cookies.set('vehicle-value', palceholderVal, {expires: 10});
 
     const [sName, setStName] = useState("");
     const [sNum, setStNum] = useState("");
@@ -62,26 +37,43 @@ const Purchase = () => {
 
     const [buttonText, changeText] = useState("Connect Virtual Payment Method");
     const [boolPayFlag, changePayFlag] = useState(false);
+    const [boolFormFlag, changeFormFlag] = useState(false); 
 
-    const handlePayFlag = () => {
+    function changeModTitle() {                                        //function to change the modal title
+        changeModText("Purchase Complete");
+    };
+    function setOrderTotal() {                                         //function to change order total text in modal
+        changeTotalText("Order Total");
+    };
+    
+    const handlePayFlag = () => {           // displays that the payment method was added and sets flag true
         changeText("Virtual Payment Connected");
         changePayFlag(true);
-    }
-
+    };
     const handleClose = () => {             // function to close the modal
         setOpen(false);
         setOpenErrPay(false);
         setOpenErrFrm(false);
     };
-    const handleOpen = (inpFlag) => {   // function to open the modal
-        if (inpFlag === true) {
+    const handleOpen = (inpPayFlag, inpFrmFlag) => {   // function to open the order error modal
+        if (inpPayFlag && inpFrmFlag) {
             setOpen(true);
-        } else if (inpFlag === false){
+        } else if (inpPayFlag === false && inpFrmFlag === false){
             setOpenErrPay(true);
-            setPayErrTxt("Add Payment Method")
-        } // add  another for form not filled out and both
-            
-
+            setPayErrTxt("Add Payment Method");
+            setOpenErrFrm(true);
+            setFrmErrTxt("Submit The Order Form");
+        } else if (inpFrmFlag === false){
+            setOpenErrFrm(true);
+            setFrmErrTxt("Submit The Order Form");
+            setOpenErrPay(false);
+            setPayErrTxt("");
+        } else {
+            setOpenErrPay(true);
+            setPayErrTxt("Add Payment Method");
+            setOpenErrFrm(false);
+            setFrmErrTxt("");
+        }
     };
     const ConfirmOrder = () => {  // 
         changeModTitle();
@@ -89,44 +81,101 @@ const Purchase = () => {
 
     };
 
-
     function handleSubmit(e) { 
         e.preventDefault();
+        changeFormFlag(true);
         setResult( 
-            // will be used for INSERT current order to db
+            // will be used for INSERT current order to db,
+            // but in confirm order function instead
             "Form has been submitted with with Input: " 
                 + sNum + " " + sName + " " + aptNum + " " + cityVal + " " + stateVal + " " + zipVal
         );
     } 
     function handleStName(e) { 
         setStName(e.target.value); 
-    }
+    };
     function handleStNum(e) { 
         setStNum(e.target.value); 
-    }
+    };
     function handleApt(e) { 
         setApt(e.target.value); 
-    }
+    };
     function handleCity(e) { 
         setCity(e.target.value); 
-    }
+    };
     function handleState(e) { 
         setState(e.target.value); 
-    }
+    };
     function handleZip(e) { 
         setZip(e.target.value);  
-    }
+    };
 
+    const fetchVehicleData = async (vin) => {
+        try {
+            const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
+            return response.data; // Assuming you expect only one vehicle data object
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw new Error('Error fetching data');
+        }
+    };
+    const fetchVehicleFeatures = async (vin) => {
+        try {
+            const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching features:', error);
+            throw new Error('Error fetching features');
+        }
+    };
+    const fetchVehiclePhotos = async (vin) => {
+        try {
+            const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching photos:', error);
+            throw new Error('Error fetching photos');
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const dataResponse = await fetchVehicleData(vin);
+                const featuresResponse = await fetchVehicleFeatures(vin);
+                const photosResponse = await fetchVehiclePhotos(vin);
+
+                setVehicleData(dataResponse);
+                setVehicleFeatures(featuresResponse);
+                setVehiclePhotos(photosResponse);
+
+                console.log(vehicleData);
+                console.log(vehicleFeatures);
+                console.log(vehiclePhotos);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [vin]);
+    
+    if (!vehicleData) {
+        // Data is loading, show loading indicator or return null
+        return <div>Loading...</div>;
+    } else
+        Cookies.set('vehicle-value', vehicleData.msrp, {expires: 10});
     return (
         <div>
             <h1>Purchase</h1>
-            <h2 style = {{marginLeft: 10}}>Vehicle Name</h2>
+            <h2 style = {{marginLeft: 10}}>{vehicleData.year} {vehicleData.make} {vehicleData.model}</h2>
             <div>
                 <GeneralRow>
                     <GeneralColumn>
                         <BoxForImage>
-                            <img src="https://edgecast-img.yahoo.net/mysterio/api/E27CFF5C773BF85E91E9D1129AFCC164333EAB53BB111DEB833624F3CED39C35/autoblog/resizefill_w660_h372;quality_80;format_webp;cc_31536000;/https://s.aolcdn.com/commerce/autodata/images/CAC80HOC021B121001.jpg"
-                                width = {400} height = {220} alt= "Vehicle"/>
+                        {vehiclePhotos.length > 0 && (
+                            <img src={vehiclePhotos[0].photo} width= {450} height={270} alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}/>
+                        )}
                         </BoxForImage>
                         <VehicleDetailBox>
                             <h3>Vehicle Details:</h3>
@@ -134,18 +183,18 @@ const Purchase = () => {
                                 <CondDisp value = {"Used"}/>
                             </GeneralRow>
                             <GeneralRow>
-                                <VinDisp value = {10010101}/>
-                                <MileageDisp value = {32131}/>
+                                <VinDisp value = {vin}/>
+                                <MileageDisp value = {vehicleData.mileage}/>
                             </GeneralRow>
                             <GeneralRow>
-                                <YearDisp value = {2022}/>
-                                <MakeDisp value = {"Honda"}/>
-                                <ModelDisp value = {"Civic"}/>
+                                <YearDisp value = {vehicleData.year}/>
+                                <MakeDisp value = {vehicleData.make}/>
+                                <ModelDisp value = {vehicleData.model}/>
                             </GeneralRow>
                             <GeneralRow>
-                                <StyleDisp value = {"LX Sedan 4D"}/>
-                                <ColorDisp value = {"Silver"}/>
-                                <TypeDisp value = {"Sedan"}/>
+                                <StyleDisp value = {vehicleData.style}/>
+                                <ColorDisp value = {vehicleData.color}/>
+                                <TypeDisp value = {vehicleData.type}/>
                             </GeneralRow>
                         </VehicleDetailBox>
                     </GeneralColumn>
@@ -153,9 +202,9 @@ const Purchase = () => {
                         <PriceBox>
                             <h3>Price Details:</h3>
                             <GeneralColumn>
-                                <MSRPDisp value = {palceholderVal}/>
-                                <MpgCDisp value = {30}/>
-                                <MpgHDisp value = {37}/>
+                                <MSRPDisp value = {vehicleData.msrp}/>
+                                <MpgCDisp value = {vehicleData['mpg-city']}/>
+                                <MpgHDisp value = {vehicleData['mpg-hwy']}/>
                             </GeneralColumn>
                         </PriceBox>
                         <VehLocBox>
@@ -169,9 +218,9 @@ const Purchase = () => {
                     <GeneralColumn>
                         <CurrentPriceBox>
                             <h3>Current Price:</h3>
-                            <dt>Vehicle Price: ${palceholderVal}</dt>
+                            <dt>Vehicle Price: ${vehicleData.msrp}</dt>
                             <dt>Trade-In Discount: ${tradVal}</dt>
-                            <dd><strong>Your Current Price:</strong> ${orderPrice}</dd>
+                            <dd><strong>Your Current Price:</strong> ${vehicleData.msrp - tradVal}</dd>
                         </CurrentPriceBox>
                         <ButtonBox>
                             <GeneralRow>
@@ -205,26 +254,13 @@ const Purchase = () => {
                                 <AddPayMthdButton flagFunc={handlePayFlag} buttonT={buttonText}/>
                             </GeneralRow>
                             <GeneralRow>
-                                <button onClick={() => handleOpen(boolPayFlag)}
-                                style={{
-                                    position: "relative",
-                                    backgroundColor: "#007bff",
-                                    color: "#fff",
-                                    padding: "10px 20px",
-                                    margin: "auto",
-                                    border: "none",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    alignSelf: "end"
-                                }}
-                                >
-                                Order Now</button>
+                                <OrderNowButton inpFunc={() => handleOpen(boolPayFlag, boolFormFlag)}/>
                                 <Modal isOpen={open}>
                                     <>
                                         <h2>{modalTitle}</h2>
                                         <img src={logo} width = {50} height = {50} alt= "Logo"/>
                                         <h3>Details:</h3>
-                                        <p>{orderTot}: ${orderPrice}</p>
+                                        <p>{orderTot}: ${vehicleData.msrp - tradVal}</p>
                                         <p>Next Day Shipping</p>
                                         <button onClick={ConfirmOrder}>Confirm Purchase</button>
                                         <button onClick={handleClose}>Close order</button>
@@ -232,7 +268,7 @@ const Purchase = () => {
                                 </Modal>
                                 <Modal isOpen={openErrPay || openErrFrm}>
                                     <>
-                                        <p>Error: {payErrTxt} {frmErrTxt}</p>
+                                        <p>Error: <dd>{payErrTxt} {frmErrTxt}</dd></p>
                                         <button onClick={handleClose}>Close</button>
                                     </>
                                 </Modal>

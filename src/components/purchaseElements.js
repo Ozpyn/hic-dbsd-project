@@ -88,7 +88,6 @@ export const OrderFormS = styled.div`
 `;
 
 
-
 const RedirectToCalc = () => {
     window.location.href = "/pay-calc";
 };
@@ -154,6 +153,24 @@ export const AddPayMthdButton = ({flagFunc, buttonT}) => {
             {buttonT}</button>
         </div>
     );
+};
+export const OrderNowButton = ({inpFunc}) => {
+    return(
+        <button onClick={inpFunc}
+            style={{
+                position: "relative",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                padding: "10px 20px",
+                margin: "auto",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                alignSelf: "end"
+            }}
+            >
+            Order Now</button>
+    )
 };
 {/* 
 export const OrderConfirmButton = () => {
