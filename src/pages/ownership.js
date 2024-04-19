@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import env from "react-dotenv";
-// import dotenv from 'dotenv';
+import ListingTile from "../components/Vehicle-Listings"
 
 const apiUrl = env.APIURL;
 
@@ -47,6 +47,9 @@ const Ownership = () => {
                 <p>Error: {error}</p>
             ) : (
                 <>
+                    <ListingTile vin="ABC123" />
+
+
                     <pre>{JSON.stringify(vehicleData, null, 2)}</pre>
                     <div>
                         {vehicleData.map((vehicle, index) => (
@@ -67,6 +70,7 @@ const Ownership = () => {
                     </div>
                 </>
             )}
+
         </div>
     );
 };
