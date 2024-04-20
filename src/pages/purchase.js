@@ -81,7 +81,7 @@ const Purchase = () => {
     const ConfirmOrder = () => {  // 
         changeModTitle();
         setOrderTotal();
-        // sendOrderData();
+        sendOrderData();
     };
 
     function handleSubmit(e) { 
@@ -161,18 +161,18 @@ const Purchase = () => {
 
         fetchData();
     }, [vin]);
-    {/* 
+    
     const sendOrderData = async () => {
         try {
             const response = await axios.post(`${apiUrl}/newOrder`, {
-                "vin": {vin},
+                "vin": vin,
                 "customer_id": 1,
-                "street_name": {sName},
-                "street_number": {sNum},
-                "apartment_number": {aptNum},
-                "city": {cityVal},
-                "state": {stateVal},
-                "zip": {zipVal}
+                "street_name": sName,
+                "street_number": sNum,
+                "apartment_number": aptNum,
+                "city": cityVal,
+                "state": stateVal,
+                "zip": zipVal
             });
             return response.data;
         } catch (error) {
@@ -194,7 +194,7 @@ const Purchase = () => {
         };
         sendData();
     }, []);
-    */}
+    
     if (!vehicleData) {
         // Data is loading, show loading indicator or return null
         return <div>Loading...</div>;
@@ -227,7 +227,6 @@ const Purchase = () => {
                                 <ModelDisp value = {vehicleData.model}/>
                             </GeneralRow>
                             <GeneralRow>
-                                <StyleDisp value = {vehicleData.style}/>
                                 <ColorDisp value = {vehicleData.color}/>
                                 <TypeDisp value = {vehicleData.type}/>
                             </GeneralRow>
@@ -312,11 +311,6 @@ const Purchase = () => {
                             </GeneralRow>
                             </GeneralColumn>
                         </OrderFormS>
-                        {/* 
-                        <VehicleDetailBox>
-                            <p>{orderPost.vin}</p>
-                        </VehicleDetailBox>
-                        */} 
                     </GeneralColumn>
                 </GeneralRow>
             </div>
