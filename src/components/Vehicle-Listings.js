@@ -17,7 +17,6 @@ export const Listing = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: baseline;
-    padding: 5px;
 `;
 
 // Box to add vehicle + details to
@@ -86,7 +85,7 @@ export const PurchaseButton = ({ vin }) => {
                 height: "100%",
                 width: "45%",
                 margin: "2%",
-                padding: "5% 10%",
+                padding: "5% 8%",
                 border: "none",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -103,23 +102,24 @@ const RedirectToSaveVehiclesPage = () => {
     window.location.href = "/saved-vehicles";
 };
 
+
 export const SaveVehicleButton = () => {
     return (
         <button onClick={RedirectToSaveVehiclesPage}
-            style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                height: "100%",
-                width: "45%",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginTop: "auto",
-            }}
+        style={{
+            backgroundColor: "#007bff",
+            color: "#fff",
+            height: "100%",
+            width: "45%",
+            padding: "5% 5%",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+        }}   
         >
-            Save Vehicle</button>
+        Save Vehicle</button>
     );
-};
+}
 
 
 const fetchVehicleData = async (vin) => {
