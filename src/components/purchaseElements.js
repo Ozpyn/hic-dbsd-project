@@ -172,23 +172,17 @@ export const OrderNowButton = ({inpFunc}) => {
             Order Now</button>
     )
 };
-{/* 
-export const OrderConfirmButton = () => {
-    const [buttonText, changeText] = useState("Confirm order")
 
-    const PayFlag = () => {
-        changeText("Virtual Payment Connected");
-        value = true;
-    }
-
+export const OrderConfirmButton = ({inpFunc}) => {
     return(
         <div>
-            <button onClick={() => PayFlag()}
+            <button onClick={inpFunc}
                 style={{
                     position: "relative",
+                    right: 5,
                     backgroundColor: "#007bff",
                     color: "#fff",
-                    padding: "10px 20px",
+                    padding: "1px 20px",
                     margin: "auto",
                     border: "none",
                     borderRadius: "5px",
@@ -196,11 +190,33 @@ export const OrderConfirmButton = () => {
                     alignSelf: "end"
                 }}
             >
-            {buttonText}</button>
+            Confirm Order</button>
         </div>
     );
 };
-*/}
+
+export const OrderCloseButton = ({inpFunc}) => {
+    return(
+        <div>
+            <button onClick={inpFunc}
+                style={{
+                    position: "relative",
+                    left: 5,
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "1px 20px",
+                    margin: "auto",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    alignSelf: "end"
+                }}
+            >
+            Close Order</button>
+        </div>
+    );
+};
+
 
 export const CondDisp = (fetchedVal) => {
     const {value} = fetchedVal

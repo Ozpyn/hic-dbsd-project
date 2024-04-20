@@ -22,7 +22,7 @@ const Home = () => {
                         <p>Other vehicle details we want</p>
 
                         <ButtonContainer>
-                            <PurchaseButton/>
+                            <PurchaseButton vin={"ABC123"}/>
                             <SaveVehicleButton/>
                         </ButtonContainer>
 

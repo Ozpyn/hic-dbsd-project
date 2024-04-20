@@ -15,14 +15,15 @@ const Modal = ({ isOpen, children }) => {
                 background: "rgba(0, 0, 0, 0.1)",
                 display: "flex",
                 alignSelf: "center",
+                alignItems: "center",
                 justifyContent: "center",
             }}
         >
             <div
                 style={{
+                    display: "flex",
+                    flexDirection: "column",
                     background: "white",
-                    height: 250,
-                    width: 240,
                     margin: "auto",
                     padding: "2%",
                     border: "1px solid #000",
