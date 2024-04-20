@@ -4,13 +4,15 @@ import Cookies from "js-cookie";
 import env from "react-dotenv";
 import axios from "axios";
 import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, StyleDisp, ColorDisp, TypeDisp, 
-    MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox, OrderNowButton} from "../components/purchaseElements.js";
+    MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox, OrderNowButton,
+    OrderConfirmButton,
+    OrderCloseButton} from "../components/purchaseElements.js";
 import Modal from "../components/Modal.js";
 import logo from "../logo.svg"
  
 const Purchase = () => {
     const apiUrl = env.APIURL;                              // saving the db API url as a const
-    const vin = "ABC123";
+    const vin = Cookies.get('purchaseVehicle');
     const [open, setOpen] = useState(false);                // declaration of the variables passed in Modal
     const [openErrPay, setOpenErrPay] = useState(false);    // declaration of the variables passed in Error Modal
     const [openErrFrm, setOpenErrFrm] = useState(false);    // declaration of the variables passed in Error Modal
@@ -27,6 +29,7 @@ const Purchase = () => {
 
     const tradVal = Cookies.get('trade-in-value');
 
+    const [orderPost, setOrderPost] = useState(null);
     const [sName, setStName] = useState("");
     const [sNum, setStNum] = useState("");
     const [aptNum, setApt] = useState("");
@@ -78,7 +81,7 @@ const Purchase = () => {
     const ConfirmOrder = () => {  // 
         changeModTitle();
         setOrderTotal();
-
+        // sendOrderData();
     };
 
     function handleSubmit(e) { 
@@ -137,7 +140,6 @@ const Purchase = () => {
             throw new Error('Error fetching photos');
         }
     };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -159,7 +161,40 @@ const Purchase = () => {
 
         fetchData();
     }, [vin]);
-    
+    {/* 
+    const sendOrderData = async () => {
+        try {
+            const response = await axios.post(`${apiUrl}/newOrder`, {
+                "vin": {vin},
+                "customer_id": 1,
+                "street_name": {sName},
+                "street_number": {sNum},
+                "apartment_number": {aptNum},
+                "city": {cityVal},
+                "state": {stateVal},
+                "zip": {zipVal}
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error sending data:', error);
+            throw new Error('Error sending data');
+        }
+    };
+    useEffect(() => {
+        const sendData = async () => {
+            try {
+                const dataResponse = await sendOrderData();
+
+                setOrderPost(dataResponse);
+
+                console.log(orderPost);
+            } catch (error) {
+                console.error('Error sending data:', error);
+            }
+        };
+        sendData();
+    }, []);
+    */}
     if (!vehicleData) {
         // Data is loading, show loading indicator or return null
         return <div>Loading...</div>;
@@ -262,8 +297,10 @@ const Purchase = () => {
                                         <h3>Details:</h3>
                                         <p>{orderTot}: ${vehicleData.msrp - tradVal}</p>
                                         <p>Next Day Shipping</p>
-                                        <button onClick={ConfirmOrder}>Confirm Purchase</button>
-                                        <button onClick={handleClose}>Close order</button>
+                                        <GeneralRow>
+                                            <OrderConfirmButton inpFunc={ConfirmOrder}>Confirm Purchase</OrderConfirmButton>
+                                            <OrderCloseButton inpFunc={handleClose}>Close order</OrderCloseButton> 
+                                        </GeneralRow>  
                                     </>
                                 </Modal>
                                 <Modal isOpen={openErrPay || openErrFrm}>
@@ -275,11 +312,11 @@ const Purchase = () => {
                             </GeneralRow>
                             </GeneralColumn>
                         </OrderFormS>
-                        {/*
+                        {/* 
                         <VehicleDetailBox>
-                            <p>{result}</p>
+                            <p>{orderPost.vin}</p>
                         </VehicleDetailBox>
-                        */}
+                        */} 
                     </GeneralColumn>
                 </GeneralRow>
             </div>
