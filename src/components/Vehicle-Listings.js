@@ -23,7 +23,7 @@ export const Listing = styled.div`
 // Box to add vehicle + details to
 export const BoxForListing = styled.div`
     position: relative;
-    width: 15%;
+    width: ${props => props.width}%; /* Use template literal syntax to interpolate props */
     margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -152,7 +152,7 @@ const fetchVehiclePhotos = async (vin) => {
     }
 };
 
-const ListingTile = ({ vin }) => {
+const ListingTile = ({ vin, width }) => {
     const [vehicleData, setVehicleData] = useState(null);
     const [vehicleFeatures, setVehicleFeatures] = useState([]);
     const [vehiclePhotos, setVehiclePhotos] = useState([]);
@@ -184,9 +184,13 @@ const ListingTile = ({ vin }) => {
     }
 
     return (
-        <BoxForListing>
+        <BoxForListing width={width}> {/* Render the BoxForListing component with the width prop */}
             {vehiclePhotos.length > 0 && (
-                <img src={vehiclePhotos[0].photo} alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`} />
+                <img
+                    src={vehiclePhotos[0].photo}
+                    alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}
+                    style={{ maxWidth: '100%' }}
+                />
             )}
 
             <a href="/about-vehicle">
@@ -206,12 +210,14 @@ const ListingTile = ({ vin }) => {
                 </>
             )}
 
+            {/* Assuming ButtonContainer and PurchaseButton/SaveVehicleButton are defined elsewhere */}
             <ButtonContainer>
                 <PurchaseButton vin={vin} />
                 <SaveVehicleButton vin={vin} />
             </ButtonContainer>
         </BoxForListing>
     );
+
 };
 
 
