@@ -160,13 +160,31 @@ const ListingTile = ({ vin, width }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dataResponse = await fetchVehicleData(vin);
-                const featuresResponse = await fetchVehicleFeatures(vin);
-                const photosResponse = await fetchVehiclePhotos(vin);
+                try {
+                    const dataResponse = await fetchVehicleData(vin);
+                    setVehicleData(dataResponse);
 
-                setVehicleData(dataResponse);
-                setVehicleFeatures(featuresResponse);
-                setVehiclePhotos(photosResponse);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+
+                }
+                try {
+                    const featuresResponse = await fetchVehicleFeatures(vin);
+                    setVehicleFeatures(featuresResponse);
+
+                } catch (error) {
+                    console.error('Error fetching Features:', error);
+
+                }
+                try {
+                    const photosResponse = await fetchVehiclePhotos(vin);
+                    setVehiclePhotos(photosResponse);
+
+                } catch (error) {
+                    console.error('Error fetching Photos:', error);
+
+                }
+
 
                 console.log(vehicleData);
                 console.log(vehicleFeatures);
@@ -185,7 +203,7 @@ const ListingTile = ({ vin, width }) => {
 
     return (
         <BoxForListing width={width}> {/* Render the BoxForListing component with the width prop */}
-            {vehiclePhotos.length > 0 && (
+            {vehiclePhotos && vehiclePhotos.length > 0 && (
                 <img
                     src={vehiclePhotos[0].photo}
                     alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}
@@ -199,7 +217,7 @@ const ListingTile = ({ vin, width }) => {
             <p>{`${vehicleData.mileage} Miles`}</p>
             <p>{`$${vehicleData.msrp}`}</p>
 
-            {vehicleFeatures.length > 0 && (
+            {vehicleFeatures && vehicleFeatures.length > 0 && (
                 <>
                     <h4>Features:</h4>
                     <ul>
@@ -209,6 +227,7 @@ const ListingTile = ({ vin, width }) => {
                     </ul>
                 </>
             )}
+
 
             {/* Assuming ButtonContainer and PurchaseButton/SaveVehicleButton are defined elsewhere */}
             <ButtonContainer>
