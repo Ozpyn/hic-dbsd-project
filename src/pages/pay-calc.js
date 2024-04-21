@@ -11,20 +11,44 @@ const PayCalc = () => {
     const [loanAmount, setLoanAmount] = useState(0);
     const [interestRate, setInterestRate] = useState(0);
     const [loanTerm, setLoanTerm] = useState(0);
+    const [fixedPayment, setFixedPayment] = useState(false);
+    const [monthlyPayment, setMonthlyPayment] = useState(0);
 
-    // Function to calculate monthly payment
+    // Function to calculate monthly payment with fixed payment
     const calculateMonthlyPayment = () => {
-        const principal = loanAmount;
+        if (fixedPayment) {
+            // Calculate loan term based on fixed payment
+            const monthlyInterestRate = interestRate / 100 / 12;
+            const numberOfPayments = Math.log(monthlyPayment / (monthlyPayment - loanAmount * monthlyInterestRate)) / Math.log(1 + monthlyInterestRate);
+            return { monthlyPayment: monthlyPayment.toFixed(2), totalPayments: Math.ceil(numberOfPayments) };
+        } else {
+            // Calculate monthly payment with flexible term
+            const principal = loanAmount;
+            const monthlyInterestRate = interestRate / 100 / 12;
+            const numberOfPayments = loanTerm * 12;
+            const numerator = principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments);
+            const denominator = Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1;
+            return { monthlyPayment: (numerator / denominator).toFixed(2), totalPayments: numberOfPayments };
+        }
+    };
+
+    // Function to calculate loan term based on fixed payment
+    const calculateLoanTerm = () => {
         const monthlyInterestRate = interestRate / 100 / 12;
-        const numberOfPayments = loanTerm * 12;
-        const numerator = principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments);
-        const denominator = Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1;
-        return (numerator / denominator).toFixed(2);
+        const numberOfPayments = Math.log(monthlyPayment / (monthlyPayment - loanAmount * monthlyInterestRate)) / Math.log(1 + monthlyInterestRate);
+        return (numberOfPayments / 12).toFixed(2);
     };
 
     return (
-        <section>
+        <section style={{ textAlign: "center" }}>
             <h2>Payment Calculator</h2>
+
+            <div>
+                <label>
+                    <input type="checkbox" checked={fixedPayment} onChange={() => setFixedPayment(!fixedPayment)} />
+                    Fixed Payment Flexible Term
+                </label>
+            </div>
 
             <dl>
                 <dt>Vehicle Value:</dt>
@@ -46,17 +70,38 @@ const PayCalc = () => {
                     <input type="number" value={interestRate} onChange={(e) => setInterestRate(parseFloat(e.target.value))} />
                 </dd>
 
-                <dt>Loan Term (years):</dt>
-                <dd>
-                    <input type="number" value={loanTerm} onChange={(e) => setLoanTerm(parseFloat(e.target.value))} />
-                </dd>
+                {!fixedPayment && (
+                    <React.Fragment>
+                        <dt>Loan Term (years):</dt>
+                        <dd>
+                            <input type="number" value={loanTerm} onChange={(e) => setLoanTerm(parseFloat(e.target.value))} />
+                        </dd>
+                    </React.Fragment>
+                )}
 
-                <dt>Monthly Payment:</dt>
+                {fixedPayment && (
+                    <React.Fragment>
+                        <dt>Monthly Payment:</dt>
+                        <dd>
+                            <input type="number" value={monthlyPayment} onChange={(e) => setMonthlyPayment(parseFloat(e.target.value))} />
+                        </dd>
+                    </React.Fragment>
+                )}
+
+                <dt>{fixedPayment ? 'Loan Term (years):' : 'Monthly Payment:'}</dt>
                 <dd>
-                    {isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm) ? (
-                        <span>Please enter valid values.</span>
+                    {fixedPayment ? (
+                        <span>{calculateLoanTerm()}</span>
                     ) : (
-                        <span>${calculateMonthlyPayment()}</span>
+                        isNaN(loanAmount) || isNaN(interestRate) || (!fixedPayment && isNaN(loanTerm)) ? (
+                            <span>Please enter valid values.</span>
+                        ) : (
+                            <React.Fragment>
+                                <span>${calculateMonthlyPayment().monthlyPayment}</span>
+                                <br />
+                                <span>Total Number of Payments: {calculateMonthlyPayment().totalPayments}</span>
+                            </React.Fragment>
+                        )
                     )}
                 </dd>
             </dl>
