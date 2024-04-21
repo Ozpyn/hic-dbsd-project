@@ -280,7 +280,7 @@ const Purchase = () => {
                                     <dt for = 'StreetNum'>Street Number: </dt>
                                     <dd><input id = 'StreetNum' placeholder = "Street Number" value={sNum} onInput={handleStNum} required/></dd>
                                     <dt for = 'Apt'>Apt Number: </dt>
-                                    <dd><input id = 'Apt' placeholder = "Apt Number" value={aptNum} onInput={handleApt}/></dd>
+                                    <dd><input id = 'Apt' placeholder = "Apt Number" value={aptNum} onInput={handleApt} required/></dd>
                                     <dt for = 'city'>City: </dt>
                                     <dd><input id = 'city' placeholder = "City Name" value={cityVal} onInput={handleCity} required/></dd>
                                     <dt for = 'state'>State: </dt>
