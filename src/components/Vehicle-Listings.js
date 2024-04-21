@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
 import axios from "axios";
+import { Box } from '@mui/material';
 
 const apiUrl = env.APIURL;
 
@@ -16,7 +17,8 @@ export const SectionHeader = styled.h1`
 export const Listing = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: baseline;
+    border: 1px solid #ccc;
+    align-items: flex-start;
 `;
 
 // Box to add vehicle + details to
@@ -40,6 +42,11 @@ export const ButtonContainer = styled.div`
 `;
 
 
+export const BoxForMoreVehiclesButton = styled(BoxForListing)`
+    height: ${props => props.height}%; 
+`;
+
+
 const RedirectToSearch = () => {
     window.location.href = "/search";
 };
@@ -53,10 +60,10 @@ export const MoreVehiclesButton = () => {
                 color: "#00000",
                 padding: "10px",
                 border: "none",
+                height: "100%",
+                width: "100%",
                 borderRadius: "5px",
                 cursor: "pointer",
-                alignSelf: "stretch",
-                flexGrow: "1",
             }}
         >
             <h2>More Vehicles</h2>
@@ -241,3 +248,41 @@ const ListingTile = ({ vin, width }) => {
 
 
 export default ListingTile;
+
+
+export const ListAllVehicles = () => {
+    const [vehicles, setVehicles] = useState([]);
+   
+    const fetchVehicles = async () => {
+    try {
+        const response = await axios.get(`${apiUrl}/getAllVehicles`);
+
+
+        // Extract the vehicles from the response data
+        const { data } = response;
+
+
+        setVehicles(data);
+    }
+    catch (error) {
+        console.error('Error:', error);
+    }
+};
+   
+    useEffect(() => {
+        fetchVehicles();
+    }, []); // Empty dependency array ensures the effect runs only once
+   
+    return (
+        <div>
+        <h1>Vehicle List</h1>
+        <ul>
+            {vehicles.map(vehicle => (
+            <li key={vehicle.id}>
+                {vehicle.make} {vehicle.model} - {vehicle.year} - {vehicle.vin}
+            </li>
+            ))}
+        </ul>
+        </div>
+    );
+};
