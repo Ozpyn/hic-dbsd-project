@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import env from "react-dotenv";
 import axios from "axios";
-import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, StyleDisp, ColorDisp, TypeDisp, 
+import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, ColorDisp, TypeDisp, 
     MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox, OrderNowButton,
     OrderConfirmButton,
     OrderCloseButton} from "../components/purchaseElements.js";
@@ -20,27 +20,32 @@ const Purchase = () => {
     const [frmErrTxt, setFrmErrTxt] = useState("");         // declaration of the variables passed in Error Modal
     
     const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
-    const [error, setError] = useState(null);               // store error message
     const [vehicleFeatures, setVehicleFeatures] = useState([]);
     const [vehiclePhotos, setVehiclePhotos] = useState([]);
 
     const [modalTitle, changeModText] = useState("Ready to Order?");   // declaration of the variables passed in Modal
     const [orderTot, changeTotalText] = useState("You Will Owe"); 
 
+    const [availText, changeAvailText] = useState("Check Availability");    // declare variable to change availabilty button text
+
     const tradVal = Cookies.get('trade-in-value');
 
-    const [orderPost, setOrderPost] = useState(null);
+    const [orderPost, setOrderPost] = useState(null);                  // Declares values to be set in the Order form
     const [sName, setStName] = useState("");
     const [sNum, setStNum] = useState("");
     const [aptNum, setApt] = useState("");
     const [cityVal, setCity] = useState("");
     const [stateVal, setState] = useState("");
     const [zipVal, setZip] = useState("");
-    const [result, setResult] = useState(""); 
 
-    const [buttonText, changeText] = useState("Connect Virtual Payment Method");
+    const [buttonText, changeText] = useState("Connect Virtual Payment Method");    // flags to allow user to confirm order
     const [boolPayFlag, changePayFlag] = useState(false);
-    const [boolFormFlag, changeFormFlag] = useState(false); 
+    const [boolFormFlag, changeFormFlag] = useState(false);
+    const [boolConfFlag, changeConfFlag] = useState(true);                          // only allows one order to prevent spam
+
+    function handleConfFlag() {      // sets confirm order flag
+        changeConfFlag(false);
+    }
 
     function changeModTitle() {                                        //function to change the modal title
         changeModText("Purchase Complete");
@@ -49,6 +54,10 @@ const Purchase = () => {
         changeTotalText("Order Total");
     };
     
+    function setAvailT() {                                         //function to change order total text in modal
+        changeAvailText("This Vehicle is Available");
+    };
+
     const handlePayFlag = () => {           // displays that the payment method was added and sets flag true
         changeText("Virtual Payment Connected");
         changePayFlag(true);
@@ -78,21 +87,16 @@ const Purchase = () => {
             setFrmErrTxt("");
         }
     };
-    const ConfirmOrder = () => {  // 
+    const ConfirmOrder = () => {    // confirms user's order and sets flag for created order
         changeModTitle();
         setOrderTotal();
         sendOrderData();
+        handleConfFlag();
     };
 
-    function handleSubmit(e) { 
+    function handleSubmit(e) {      // sets order form flag to be complete
         e.preventDefault();
         changeFormFlag(true);
-        setResult( 
-            // will be used for INSERT current order to db,
-            // but in confirm order function instead
-            "Form has been submitted with with Input: " 
-                + sNum + " " + sName + " " + aptNum + " " + cityVal + " " + stateVal + " " + zipVal
-        );
     } 
     function handleStName(e) { 
         setStName(e.target.value); 
@@ -113,7 +117,7 @@ const Purchase = () => {
         setZip(e.target.value);  
     };
 
-    const fetchVehicleData = async (vin) => {
+    const fetchVehicleData = async (vin) => {       // fetches data from api of /getVehicle
         try {
             const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
             return response.data; // Assuming you expect only one vehicle data object
@@ -122,7 +126,7 @@ const Purchase = () => {
             throw new Error('Error fetching data');
         }
     };
-    const fetchVehicleFeatures = async (vin) => {
+    const fetchVehicleFeatures = async (vin) => {   // fetches data from api of /getVehicleFeatures
         try {
             const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
             return response.data;
@@ -131,7 +135,7 @@ const Purchase = () => {
             throw new Error('Error fetching features');
         }
     };
-    const fetchVehiclePhotos = async (vin) => {
+    const fetchVehiclePhotos = async (vin) => {     // fetches data from api of /getVehiclePhotos
         try {
             const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
             return response.data;
@@ -140,7 +144,7 @@ const Purchase = () => {
             throw new Error('Error fetching photos');
         }
     };
-    useEffect(() => {
+    useEffect(() => {                               // calls functions to fetch necessary vehicle data
         const fetchData = async () => {
             try {
                 const dataResponse = await fetchVehicleData(vin);
@@ -162,25 +166,27 @@ const Purchase = () => {
         fetchData();
     }, [vin]);
     
-    const sendOrderData = async () => {
-        try {
-            const response = await axios.post(`${apiUrl}/newOrder`, {
-                "vin": vin,
-                "customer_id": 1,
-                "street_name": sName,
-                "street_number": sNum,
-                "apartment_number": aptNum,
-                "city": cityVal,
-                "state": stateVal,
-                "zip": zipVal
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error sending data:', error);
-            throw new Error('Error sending data');
-        }
+    const sendOrderData = async () => {             // sends specific data entered in the Order form to create new order
+        if (boolConfFlag) {
+            try {
+                const response = await axios.post(`${apiUrl}/newOrder`, {
+                    "vin": vin,
+                    "customer_id": 1,
+                    "street_name": sName,
+                    "street_number": sNum,
+                    "apartment_number": aptNum,
+                    "city": cityVal,
+                    "state": stateVal,
+                    "zip": zipVal
+                });
+                return response.data;
+            } catch (error) {
+                console.error('Error sending data:', error.response.data);
+                throw new Error('Error sending data');
+            }
+        } 
     };
-    useEffect(() => {
+    useEffect(() => {                               // calls functions to send necessary Order form details
         const sendData = async () => {
             try {
                 const dataResponse = await sendOrderData();
@@ -259,7 +265,7 @@ const Purchase = () => {
                         <ButtonBox>
                             <GeneralRow>
                                 <CalcButton/>
-                                <AvailButton/>
+                                <AvailButton inpFunc={setAvailT} buttonT={availText}/>
                             </GeneralRow>
                         </ButtonBox>
                     </GeneralColumn>
@@ -274,7 +280,7 @@ const Purchase = () => {
                                     <dt for = 'StreetNum'>Street Number: </dt>
                                     <dd><input id = 'StreetNum' placeholder = "Street Number" value={sNum} onInput={handleStNum} required/></dd>
                                     <dt for = 'Apt'>Apt Number: </dt>
-                                    <dd><input id = 'Apt' placeholder = "Apt Number" value={aptNum} onInput={handleApt}/></dd>
+                                    <dd><input id = 'Apt' placeholder = "Apt Number" value={aptNum} onInput={handleApt} required/></dd>
                                     <dt for = 'city'>City: </dt>
                                     <dd><input id = 'city' placeholder = "City Name" value={cityVal} onInput={handleCity} required/></dd>
                                     <dt for = 'state'>State: </dt>
