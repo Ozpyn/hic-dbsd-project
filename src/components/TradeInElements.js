@@ -111,50 +111,30 @@ export const MechColumn = styled.div`
 
 // style and funtionality for the year dropdown box 
 // in the Make and Model box
+// Sorry, I added an older vehicle to the database, but didnt want to write each year individually
+// So I made a small function to populate
 export function YearForm() {
     const [year, setYear] = useState("2024");
 
     const handleChange = (event) => {
-        setYear(event.target.value)
-    }
+        setYear(event.target.value);
+    };
 
     return (
-        <form style={{marginBottom: 30}}>
-            <label for = 'dropdown'>Year: </label>
-            <select id = 'dropdown' value = {year} onChange = {handleChange}
-                style = {{
-                    position: "relative",
-                    left: 12
-                }}
+        <form style={{ marginBottom: 30 }}>
+            <label htmlFor='dropdown'>Year: </label>
+            <select
+                id='dropdown'
+                value={year}
+                onChange={handleChange}
+                style={{ position: "relative", left: 12 }}
             >
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017</option>
-                <option>2016</option>
-                <option>2015</option>
-                <option>2014</option>
-                <option>2013</option>
-                <option>2012</option>
-                <option>2011</option>
-                <option>2010</option>
-                <option>2009</option>
-                <option>2008</option>
-                <option>2007</option>
-                <option>2006</option>
-                <option>2005</option>
-                <option>2004</option>
-                <option>2003</option>
-                <option>2002</option>
-                <option>2001</option>
-                <option>2000</option>
+                {Array.from({ length: 70 }, (_, i) => 2024 - i).map((year) => (
+                    <option key={year}>{year}</option>
+                ))}
             </select>
         </form>
-    )
+    );
 }
 
 // style and funtionality for the Mileage input 

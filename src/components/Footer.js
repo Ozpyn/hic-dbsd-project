@@ -1,8 +1,8 @@
 import React from "react";
-import {Footer as StyledFooter} from "./FooterElements";
+import { Footer as StyledFooter } from "./FooterElements";
 
 const Footer = () => {
-    return(
+    return (
         <>
             <StyledFooter>
                 <p>&copy; 2024 Car Dealership</p>

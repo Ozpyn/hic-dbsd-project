@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Cookies from 'js-cookie';
 import styled from "styled-components";
-import { NavLink } from "../components/NavbarElements";
+// import { NavLink } from "../components/NavbarElements";
+// Navigation not needed?
 
 export const CalculatorFrame = styled.div`
     width: 35%; /* Use template literal syntax to interpolate props */
