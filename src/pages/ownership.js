@@ -4,6 +4,7 @@ import env from "react-dotenv";
 import ListingTile from "../components/Vehicle-Listings"
 
 const apiUrl = env.APIURL;
+const tileWidth = 15;
 
 const Ownership = () => {
     // State to store the fetched customer data
@@ -40,8 +41,12 @@ const Ownership = () => {
             async function fetchVehicles() {
                 const response = await fetch(`${apiUrl}/getOwnership/${customerId}`);
                 const data = await response.json();
-                const vehicleVins = data.map(vehicle => vehicle.vehicle_vin);
-                setVehicles(vehicleVins);
+                console.log(data);
+                console.log("^Vehicle owned by Customer")
+                if (data && data.length > 0) {
+                    const vehicleVins = data.map(vehicle => vehicle.vehicle_vin);
+                    setVehicles(vehicleVins);
+                }
             }
 
             fetchVehicles();
@@ -50,7 +55,7 @@ const Ownership = () => {
         return (
             <div>
                 {vehicles.map(vin => (
-                    <ListingTile key={vin} vin={vin} width={15} />
+                    <ListingTile key={vin} vin={vin} width={tileWidth} />
                 ))}
             </div>
         );
@@ -61,20 +66,45 @@ const Ownership = () => {
 
         useEffect(() => {
             async function fetchCustomers() {
-                const response = await fetch(`${apiUrl}/getAllCustomers`);
+                const response = await fetch(`${apiUrl}/getAllOwnership`);
                 const data = await response.json();
-                setCustomers(data);
+                const customerIds = data.map(item => item.customer_id);
+                const uniqueCustomerIds = [...new Set(customerIds)]; // Get unique customer IDs
+                setCustomers(uniqueCustomerIds);
             }
 
             fetchCustomers();
         }, []);
 
+        useEffect(() => {
+            async function fetchCustomerNames() {
+                const promises = customers.map(async customerId => {
+                    try {
+                        const response = await fetch(`${apiUrl}/getCustomer/${customerId}`);
+                        const data = await response.json();
+                        return `${data.first_name} ${data.last_name}`;
+                    } catch (error) {
+                        console.error('Error fetching customer:', error);
+                        return '';
+                    }
+                });
+                const names = await Promise.all(promises);
+                setCustomerNames(names);
+            }
+
+            if (customers.length > 0) {
+                fetchCustomerNames();
+            }
+        }, [customers]);
+
+        const [customerNames, setCustomerNames] = useState([]);
+
         return (
             <div>
-                {customers.map(customer => (
-                    <div key={customer.id} className="customer">
-                        <h2>{customer.first_name} {customer.last_name}:</h2>
-                        <CustomerVehicles customerId={customer.id} />
+                {customerNames.map((customerName, index) => (
+                    <div key={customers[index]} className="customer">
+                        <h2>{customerName}</h2>
+                        <CustomerVehicles customerId={customers[index]} />
                     </div>
                 ))}
             </div>
@@ -82,21 +112,9 @@ const Ownership = () => {
     }
 
     function VehicleList() {
-        const [allVehicles, setAllVehicles] = useState([]);
-
-        useEffect(() => {
-            async function fetchAllVehicles() {
-                const response = await fetch(`${apiUrl}/getAllVehicles`);
-                const data = await response.json();
-                setAllVehicles(data);
-            }
-
-            fetchAllVehicles();
-        }, []);
-
         return (
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {allVehicles.map(vehicle => (
+                {vehicleData.map(vehicle => (
                     <div key={vehicle.vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}> {/* Adjust flex basis to 20% */}
                         <ListingTile key={vehicle.vin} vin={vehicle.vin} width={80} />
                     </div>
@@ -106,13 +124,7 @@ const Ownership = () => {
         );
     }
 
-    function newVehicleTile(vin) {
-        return (
-            <ListingTile vin={vin} width={5} />
-        )
-    }
-
-    // useEffect hook to fetch customer data when component mounts
+    // useEffect hook to fetch vehicle data when component mounts
     useEffect(() => {
         fetchVehicleData();
     }, []);
@@ -126,33 +138,12 @@ const Ownership = () => {
                 <p>Error: {error}</p>
             ) : (
                 <>
-
-                    {/* <div><ListingTile vin="ABC123" /></div> */}
                     <div>
                         <h1>Customer Vehicles</h1>
                         <CustomerList />
                         <h1>All Vehicles</h1>
                         <VehicleList />
                     </div>
-
-                    {/* <pre>{JSON.stringify(vehicleData, null, 2)}</pre>
-                    <div>
-                        {vehicleData.map((vehicle, index) => (
-                            <div key={index}>
-                                <h3>Vehicle {index + 1}</h3>
-                                <p><strong>VIN:</strong> {vehicle.vin}</p>
-                                <p><strong>Make:</strong> {vehicle.make}</p>
-                                <p><strong>Model:</strong> {vehicle.model}</p>
-                                <p><strong>Year:</strong> {vehicle.year}</p>
-                                <p><strong>Color:</strong> {vehicle.color}</p>
-                                <p><strong>Type:</strong> {vehicle.type}</p>
-                                <p><strong>Mileage:</strong> {vehicle.mileage}</p>
-                                <p><strong>MPG (City):</strong> {vehicle['mpg-city']}</p>
-                                <p><strong>MPG (Highway):</strong> {vehicle['mpg-hwy']}</p>
-                                <p><strong>MSRP:</strong> ${vehicle.msrp}</p>
-                            </div>
-                        ))}
-                    </div> */}
                 </>
             )}
 
