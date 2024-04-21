@@ -22,7 +22,7 @@ export const Listing = styled.div`
 // Box to add vehicle + details to
 export const BoxForListing = styled.div`
     position: relative;
-    width: 15%;
+    width: ${props => props.width}%; /* Use template literal syntax to interpolate props */
     margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -152,7 +152,7 @@ const fetchVehiclePhotos = async (vin) => {
     }
 };
 
-const ListingTile = ({ vin }) => {
+const ListingTile = ({ vin, width }) => {
     const [vehicleData, setVehicleData] = useState(null);
     const [vehicleFeatures, setVehicleFeatures] = useState([]);
     const [vehiclePhotos, setVehiclePhotos] = useState([]);
@@ -160,13 +160,31 @@ const ListingTile = ({ vin }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dataResponse = await fetchVehicleData(vin);
-                const featuresResponse = await fetchVehicleFeatures(vin);
-                const photosResponse = await fetchVehiclePhotos(vin);
+                try {
+                    const dataResponse = await fetchVehicleData(vin);
+                    setVehicleData(dataResponse);
 
-                setVehicleData(dataResponse);
-                setVehicleFeatures(featuresResponse);
-                setVehiclePhotos(photosResponse);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+
+                }
+                try {
+                    const featuresResponse = await fetchVehicleFeatures(vin);
+                    setVehicleFeatures(featuresResponse);
+
+                } catch (error) {
+                    console.error('Error fetching Features:', error);
+
+                }
+                try {
+                    const photosResponse = await fetchVehiclePhotos(vin);
+                    setVehiclePhotos(photosResponse);
+
+                } catch (error) {
+                    console.error('Error fetching Photos:', error);
+
+                }
+
 
                 console.log(vehicleData);
                 console.log(vehicleFeatures);
@@ -184,9 +202,13 @@ const ListingTile = ({ vin }) => {
     }
 
     return (
-        <BoxForListing>
-            {vehiclePhotos.length > 0 && (
-                <img src={vehiclePhotos[0].photo} alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`} />
+        <BoxForListing width={width}> {/* Render the BoxForListing component with the width prop */}
+            {vehiclePhotos && vehiclePhotos.length > 0 && (
+                <img
+                    src={vehiclePhotos[0].photo}
+                    alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}
+                    style={{ maxWidth: '100%' }}
+                />
             )}
 
             <a href="/about-vehicle">
@@ -195,7 +217,7 @@ const ListingTile = ({ vin }) => {
             <p>{`${vehicleData.mileage} Miles`}</p>
             <p>{`$${vehicleData.msrp}`}</p>
 
-            {vehicleFeatures.length > 0 && (
+            {vehicleFeatures && vehicleFeatures.length > 0 && (
                 <>
                     <h4>Features:</h4>
                     <ul>
@@ -206,12 +228,15 @@ const ListingTile = ({ vin }) => {
                 </>
             )}
 
+
+            {/* Assuming ButtonContainer and PurchaseButton/SaveVehicleButton are defined elsewhere */}
             <ButtonContainer>
                 <PurchaseButton vin={vin} />
                 <SaveVehicleButton vin={vin} />
             </ButtonContainer>
         </BoxForListing>
     );
+
 };
 
 
