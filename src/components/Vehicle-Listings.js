@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
@@ -7,6 +7,13 @@ import { Box } from '@mui/material';
 
 const apiUrl = env.APIURL;
 
+
+export const MainContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+
 // Section header used for Today's Deals and Used cars 
 export const SectionHeader = styled.h1`
     margin-top: 100px;
@@ -14,12 +21,28 @@ export const SectionHeader = styled.h1`
 `;
 
 
-export const Listing = styled.div`
+export const ListingContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #ccc;
+    width: 80%; 
     align-items: flex-start;
 `;
+
+
+export const MoreVehiclesButtonContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #ccc;
+    width: 15%; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 1.35%;    
+    margin-left: -1.2%
+`;
+
 
 // Box to add vehicle + details to
 export const BoxForListing = styled.div`
@@ -39,11 +62,6 @@ export const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-`;
-
-
-export const BoxForMoreVehiclesButton = styled(BoxForListing)`
-    height: ${props => props.height}%; 
 `;
 
 
@@ -256,12 +274,8 @@ export const ListAllVehicles = () => {
     const fetchVehicles = async () => {
     try {
         const response = await axios.get(`${apiUrl}/getAllVehicles`);
-
-
         // Extract the vehicles from the response data
         const { data } = response;
-
-
         setVehicles(data);
     }
     catch (error) {
@@ -271,18 +285,18 @@ export const ListAllVehicles = () => {
    
     useEffect(() => {
         fetchVehicles();
-    }, []); // Empty dependency array ensures the effect runs only once
+    }, []); 
    
     return (
         <div>
-        <h1>Vehicle List</h1>
-        <ul>
-            {vehicles.map(vehicle => (
-            <li key={vehicle.id}>
-                {vehicle.make} {vehicle.model} - {vehicle.year} - {vehicle.vin}
-            </li>
-            ))}
-        </ul>
+            <h1>Vehicle List</h1>
+            <ul>
+                {vehicles.map(vehicle => (
+                <li key={vehicle.id}>
+                    {vehicle.make} {vehicle.model} - {vehicle.year} - {vehicle.vin}
+                </li>
+                ))}
+            </ul>
         </div>
     );
 };
