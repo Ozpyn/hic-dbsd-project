@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import env from "react-dotenv";
 import axios from "axios";
-import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, StyleDisp, ColorDisp, TypeDisp, 
+import { AvailButton, BoxForImage, ButtonBox, CalcButton, GeneralColumn, VehicleDetailBox, GeneralRow, VinDisp, MileageDisp, YearDisp, MakeDisp, ModelDisp, ColorDisp, TypeDisp, 
     MpgCDisp, MpgHDisp, PriceBox, MSRPDisp, VehLocBox, AddPayMthdButton, OrderFormS, CondDisp, CurrentPriceBox, OrderNowButton,
     OrderConfirmButton,
     OrderCloseButton} from "../components/purchaseElements.js";
@@ -22,7 +22,6 @@ const Purchase = () => {
     const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
     const [vehicleFeatures, setVehicleFeatures] = useState([]);
     const [vehiclePhotos, setVehiclePhotos] = useState([]);
-    const [error, setError] = useState(null);               // store error message
 
     const [modalTitle, changeModText] = useState("Ready to Order?");   // declaration of the variables passed in Modal
     const [orderTot, changeTotalText] = useState("You Will Owe"); 
@@ -38,11 +37,15 @@ const Purchase = () => {
     const [cityVal, setCity] = useState("");
     const [stateVal, setState] = useState("");
     const [zipVal, setZip] = useState("");
-    const [result, setResult] = useState(""); 
 
     const [buttonText, changeText] = useState("Connect Virtual Payment Method");    // flags to allow user to confirm order
     const [boolPayFlag, changePayFlag] = useState(false);
-    const [boolFormFlag, changeFormFlag] = useState(false); 
+    const [boolFormFlag, changeFormFlag] = useState(false);
+    const [boolConfFlag, changeConfFlag] = useState(true);                          // only allows one order to prevent spam
+
+    function handleConfFlag() {      // sets confirm order flag
+        changeConfFlag(false);
+    }
 
     function changeModTitle() {                                        //function to change the modal title
         changeModText("Purchase Complete");
@@ -88,6 +91,7 @@ const Purchase = () => {
         changeModTitle();
         setOrderTotal();
         sendOrderData();
+        handleConfFlag();
     };
 
     function handleSubmit(e) {      // sets order form flag to be complete
@@ -163,22 +167,24 @@ const Purchase = () => {
     }, [vin]);
     
     const sendOrderData = async () => {             // sends specific data entered in the Order form to create new order
-        try {
-            const response = await axios.post(`${apiUrl}/newOrder`, {
-                "vin": vin,
-                "customer_id": 1,
-                "street_name": sName,
-                "street_number": sNum,
-                "apartment_number": aptNum,
-                "city": cityVal,
-                "state": stateVal,
-                "zip": zipVal
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error sending data:', error.response.data);
-            throw new Error('Error sending data');
-        }
+        if (boolConfFlag) {
+            try {
+                const response = await axios.post(`${apiUrl}/newOrder`, {
+                    "vin": vin,
+                    "customer_id": 1,
+                    "street_name": sName,
+                    "street_number": sNum,
+                    "apartment_number": aptNum,
+                    "city": cityVal,
+                    "state": stateVal,
+                    "zip": zipVal
+                });
+                return response.data;
+            } catch (error) {
+                console.error('Error sending data:', error.response.data);
+                throw new Error('Error sending data');
+            }
+        } 
     };
     useEffect(() => {                               // calls functions to send necessary Order form details
         const sendData = async () => {
