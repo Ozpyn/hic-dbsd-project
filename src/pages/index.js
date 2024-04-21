@@ -1,5 +1,5 @@
 import React from "react";
-import ListingTile, {MainContainer, ListingContainer, BoxForListing, PurchaseButton, SectionHeader, MoreVehiclesButton, SaveVehicleButton, ButtonContainer, MoreVehiclesButtonContainer} from "../components/Vehicle-Listings.js";
+import ListingTile, {MainContainer, ListingContainer, SectionHeader, MoreVehiclesButton, MoreVehiclesButtonContainer} from "../components/Vehicle-Listings.js";
 
 const Home = () => {
     return (

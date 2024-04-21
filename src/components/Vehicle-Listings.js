@@ -3,7 +3,6 @@ import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
 import axios from "axios";
-import { Box } from '@mui/material';
 
 const apiUrl = env.APIURL;
 
