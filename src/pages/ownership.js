@@ -62,7 +62,6 @@ const Ownership = () => {
                         <h1>Customer Vehicles</h1>
                         {customerData.map((customer) => (
                             <div key={customer.customer_id} className="customer">
-                                <h2>{`${customer.first_name} ${customer.last_name}`}</h2>
                                 <CustomerVehicles customer={customer} fetchCustomerNames={fetchCustomerNames} />
                             </div>
                         ))}
@@ -77,6 +76,7 @@ const Ownership = () => {
 
 const CustomerVehicles = ({ customer, fetchCustomerNames }) => {
     const [vehicles, setVehicles] = useState([]);
+    const [customerName, setCustomerName] = useState('');
 
     useEffect(() => {
         const fetchVehicles = async () => {
@@ -85,16 +85,19 @@ const CustomerVehicles = ({ customer, fetchCustomerNames }) => {
                 const data = response.data;
                 const vehicleVins = data.map((vehicle) => vehicle.vehicle_vin);
                 setVehicles(vehicleVins);
+                const name = await fetchCustomerNames([customer.customer_id]);
+                setCustomerName(name[0]);
             } catch (error) {
                 console.error('Error fetching vehicles:', error);
             }
         };
 
         fetchVehicles();
-    }, [customer]);
+    }, [customer, fetchCustomerNames]);
 
     return (
         <div>
+            <h2>{customerName}</h2>
             {vehicles.map((vin) => (
                 <ListingTile key={vin} vin={vin} width={tileWidth} />
             ))}
