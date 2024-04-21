@@ -88,15 +88,15 @@ export const OrderFormS = styled.div`
 `;
 
 
-const RedirectToCalc = () => {
+const RedirectToCalc = () => {                  // sends user to payment calculator
     window.location.href = "/pay-calc";
 };
 
-const CheckAvail = () => {
+const CheckAvail = () => {                      // displays the vehicle is available
     return alert('This Car is Available!');
 }
 
-export const CalcButton = () => {
+export const CalcButton = () => {               // button used to redirect user to /pay-calc
     return(
         <button onClick={RedirectToCalc}
         style={{
@@ -115,9 +115,9 @@ export const CalcButton = () => {
     );
 };
 
-export const AvailButton = () => {
+export const AvailButton = ({inpFunc, buttonT}) => {        // button used to check vehicle availability
     return(
-        <button onClick={() => CheckAvail()}
+        <button onClick={inpFunc}
         style={{
             position: "relative",
             backgroundColor: "#007bff",
@@ -130,11 +130,11 @@ export const AvailButton = () => {
             alignSelf: "center", 
         }}
         >
-        Check Availability</button>
+        {buttonT}</button>
     );
 };
 
-export const AddPayMthdButton = ({flagFunc, buttonT}) => {
+export const AddPayMthdButton = ({flagFunc, buttonT}) => {  // button used to add a payment method to the order
     return(
         <div>
             <button onClick={flagFunc}
@@ -154,7 +154,7 @@ export const AddPayMthdButton = ({flagFunc, buttonT}) => {
         </div>
     );
 };
-export const OrderNowButton = ({inpFunc}) => {
+export const OrderNowButton = ({inpFunc}) => {          // button to show modal popup and shows order details
     return(
         <button onClick={inpFunc}
             style={{
@@ -173,7 +173,7 @@ export const OrderNowButton = ({inpFunc}) => {
     )
 };
 
-export const OrderConfirmButton = ({inpFunc}) => {
+export const OrderConfirmButton = ({inpFunc}) => {      // allows the user to confirm the order if they want to proceed
     return(
         <div>
             <button onClick={inpFunc}
@@ -195,7 +195,7 @@ export const OrderConfirmButton = ({inpFunc}) => {
     );
 };
 
-export const OrderCloseButton = ({inpFunc}) => {
+export const OrderCloseButton = ({inpFunc}) => {        // closes modal popup
     return(
         <div>
             <button onClick={inpFunc}
@@ -217,84 +217,73 @@ export const OrderCloseButton = ({inpFunc}) => {
     );
 };
 
-
+// displays vehicle details
 export const CondDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Condition:</strong> {value}</label>
     )
 }
-
 export const VinDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>VIN:</strong> {value}</label>
     )
 }
-
 export const MileageDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Mileage:</strong> {value} miles</label>
     )
 }
-
 export const YearDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Year:</strong> {value}</label>
     )
 }
-
 export const MakeDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Make:</strong> {value}</label>
     )
 }
-
 export const ModelDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Model:</strong> {value}</label>
     )
 }
-
 export const StyleDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Style:</strong> {value}</label>
     )
 }
-
 export const ColorDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Color:</strong> {value}</label>
     )
 }
-
 export const TypeDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Type:</strong> {value}</label>
     )
 }
-
 export const MpgHDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Mpg-Highway:</strong> {value} mpg</label>
     )
 }
-
 export const MpgCDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
         <label style={{marginRight: 20, fontSize: 15}}><strong>Mpg-City:</strong> {value} mpg</label>
     )
 }
-
 export const MSRPDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (

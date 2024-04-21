@@ -20,16 +20,18 @@ const Purchase = () => {
     const [frmErrTxt, setFrmErrTxt] = useState("");         // declaration of the variables passed in Error Modal
     
     const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
-    const [error, setError] = useState(null);               // store error message
     const [vehicleFeatures, setVehicleFeatures] = useState([]);
     const [vehiclePhotos, setVehiclePhotos] = useState([]);
+    const [error, setError] = useState(null);               // store error message
 
     const [modalTitle, changeModText] = useState("Ready to Order?");   // declaration of the variables passed in Modal
     const [orderTot, changeTotalText] = useState("You Will Owe"); 
 
+    const [availText, changeAvailText] = useState("Check Availability");    // declare variable to change availabilty button text
+
     const tradVal = Cookies.get('trade-in-value');
 
-    const [orderPost, setOrderPost] = useState(null);
+    const [orderPost, setOrderPost] = useState(null);                  // Declares values to be set in the Order form
     const [sName, setStName] = useState("");
     const [sNum, setStNum] = useState("");
     const [aptNum, setApt] = useState("");
@@ -38,7 +40,7 @@ const Purchase = () => {
     const [zipVal, setZip] = useState("");
     const [result, setResult] = useState(""); 
 
-    const [buttonText, changeText] = useState("Connect Virtual Payment Method");
+    const [buttonText, changeText] = useState("Connect Virtual Payment Method");    // flags to allow user to confirm order
     const [boolPayFlag, changePayFlag] = useState(false);
     const [boolFormFlag, changeFormFlag] = useState(false); 
 
@@ -49,6 +51,10 @@ const Purchase = () => {
         changeTotalText("Order Total");
     };
     
+    function setAvailT() {                                         //function to change order total text in modal
+        changeAvailText("This Vehicle is Available");
+    };
+
     const handlePayFlag = () => {           // displays that the payment method was added and sets flag true
         changeText("Virtual Payment Connected");
         changePayFlag(true);
@@ -78,21 +84,15 @@ const Purchase = () => {
             setFrmErrTxt("");
         }
     };
-    const ConfirmOrder = () => {  // 
+    const ConfirmOrder = () => {    // confirms user's order and sets flag for created order
         changeModTitle();
         setOrderTotal();
         sendOrderData();
     };
 
-    function handleSubmit(e) { 
+    function handleSubmit(e) {      // sets order form flag to be complete
         e.preventDefault();
         changeFormFlag(true);
-        setResult( 
-            // will be used for INSERT current order to db,
-            // but in confirm order function instead
-            "Form has been submitted with with Input: " 
-                + sNum + " " + sName + " " + aptNum + " " + cityVal + " " + stateVal + " " + zipVal
-        );
     } 
     function handleStName(e) { 
         setStName(e.target.value); 
@@ -113,7 +113,7 @@ const Purchase = () => {
         setZip(e.target.value);  
     };
 
-    const fetchVehicleData = async (vin) => {
+    const fetchVehicleData = async (vin) => {       // fetches data from api of /getVehicle
         try {
             const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
             return response.data; // Assuming you expect only one vehicle data object
@@ -122,7 +122,7 @@ const Purchase = () => {
             throw new Error('Error fetching data');
         }
     };
-    const fetchVehicleFeatures = async (vin) => {
+    const fetchVehicleFeatures = async (vin) => {   // fetches data from api of /getVehicleFeatures
         try {
             const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
             return response.data;
@@ -131,7 +131,7 @@ const Purchase = () => {
             throw new Error('Error fetching features');
         }
     };
-    const fetchVehiclePhotos = async (vin) => {
+    const fetchVehiclePhotos = async (vin) => {     // fetches data from api of /getVehiclePhotos
         try {
             const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
             return response.data;
@@ -140,7 +140,7 @@ const Purchase = () => {
             throw new Error('Error fetching photos');
         }
     };
-    useEffect(() => {
+    useEffect(() => {                               // calls functions to fetch necessary vehicle data
         const fetchData = async () => {
             try {
                 const dataResponse = await fetchVehicleData(vin);
@@ -162,7 +162,7 @@ const Purchase = () => {
         fetchData();
     }, [vin]);
     
-    const sendOrderData = async () => {
+    const sendOrderData = async () => {             // sends specific data entered in the Order form to create new order
         try {
             const response = await axios.post(`${apiUrl}/newOrder`, {
                 "vin": vin,
@@ -176,11 +176,11 @@ const Purchase = () => {
             });
             return response.data;
         } catch (error) {
-            console.error('Error sending data:', error);
+            console.error('Error sending data:', error.response.data);
             throw new Error('Error sending data');
         }
     };
-    useEffect(() => {
+    useEffect(() => {                               // calls functions to send necessary Order form details
         const sendData = async () => {
             try {
                 const dataResponse = await sendOrderData();
@@ -259,7 +259,7 @@ const Purchase = () => {
                         <ButtonBox>
                             <GeneralRow>
                                 <CalcButton/>
-                                <AvailButton/>
+                                <AvailButton inpFunc={setAvailT} buttonT={availText}/>
                             </GeneralRow>
                         </ButtonBox>
                     </GeneralColumn>
