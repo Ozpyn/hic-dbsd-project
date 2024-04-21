@@ -151,7 +151,7 @@ const fetchVehicleData = async (vin) => {
         const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
         return response.data; // Assuming you expect only one vehicle data object
     } catch (error) {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
         throw new Error('Error fetching data');
     }
 };
@@ -161,7 +161,7 @@ const fetchVehicleFeatures = async (vin) => {
         const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching features:', error);
+        // console.error('Error fetching features:', error);
         throw new Error('Error fetching features');
     }
 };
@@ -171,7 +171,7 @@ const fetchVehiclePhotos = async (vin) => {
         const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching photos:', error);
+        // console.error('Error fetching photos:', error);
         throw new Error('Error fetching photos');
     }
 };
@@ -187,34 +187,23 @@ const ListingTile = ({ vin, width }) => {
                 try {
                     const dataResponse = await fetchVehicleData(vin);
                     setVehicleData(dataResponse);
-
                 } catch (error) {
-                    console.error('Error fetching data:', error);
-
+                    // console.error('Error fetching data:', error);
                 }
                 try {
                     const featuresResponse = await fetchVehicleFeatures(vin);
                     setVehicleFeatures(featuresResponse);
-
                 } catch (error) {
-                    console.error('Error fetching Features:', error);
-
+                    // console.error('Error fetching Features:', error);
                 }
                 try {
                     const photosResponse = await fetchVehiclePhotos(vin);
                     setVehiclePhotos(photosResponse);
-
                 } catch (error) {
-                    console.error('Error fetching Photos:', error);
-
+                    // console.error('Error fetching Photos:', error);
                 }
-
-
-                console.log(vehicleData);
-                console.log(vehicleFeatures);
-                console.log(vehiclePhotos);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
             }
         };
 
@@ -278,7 +267,7 @@ export const ListAllVehicles = () => {
         setVehicles(data);
     }
     catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
     }
 };
    
