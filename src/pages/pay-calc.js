@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import Cookies from 'js-cookie';
+import styled from "styled-components";
 import { NavLink } from "../components/NavbarElements";
+
+export const CalculatorFrame = styled.div`
+    width: 35%; /* Use template literal syntax to interpolate props */
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+`;
 
 const PayCalc = () => {
     // Retrieve values from cookies or default to 0 if not found
@@ -40,16 +52,14 @@ const PayCalc = () => {
     };
 
     return (
-        <section style={{ textAlign: "center" }}>
+        <CalculatorFrame>
             <h2>Payment Calculator</h2>
-
             <div>
                 <label>
                     <input type="checkbox" checked={fixedPayment} onChange={() => setFixedPayment(!fixedPayment)} />
                     Fixed Payment Flexible Term
                 </label>
             </div>
-
             <dl>
                 <dt>Vehicle Value:</dt>
                 <dd>{vehVal}</dd>
@@ -105,7 +115,7 @@ const PayCalc = () => {
                     )}
                 </dd>
             </dl>
-        </section>
+        </CalculatorFrame>
     );
 };
 
