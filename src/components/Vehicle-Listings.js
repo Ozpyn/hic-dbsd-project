@@ -210,6 +210,10 @@ const ListingTile = ({ vin, width }) => {
         fetchData();
     }, [vin]);
 
+    const handleAboutVehicleClick = (vehicleVIN) => {
+            Cookies.set('aboutVin', vehicleVIN);
+    };
+
     if (!vehicleData) {
         return <div>Loading...</div>;
     }
@@ -224,7 +228,7 @@ const ListingTile = ({ vin, width }) => {
                 />
             )}
 
-            <a href="/about-vehicle">
+            <a href="/about-vehicle" onClick={() => handleAboutVehicleClick(vehicleData.vin)}>
                 <h3>{`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}</h3>
             </a>
             <p>{`${vehicleData.mileage} Miles`}</p>
