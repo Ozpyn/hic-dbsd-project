@@ -20,8 +20,6 @@ const Purchase = () => {
     const [frmErrTxt, setFrmErrTxt] = useState("");         // declaration of the variables passed in Error Modal
     
     const [vehicleData, setVehicleData] = useState(null);   // store fetched customer data
-    const [vehicleFeatures, setVehicleFeatures] = useState([]);
-    const [vehiclePhotos, setVehiclePhotos] = useState([]);
 
     const [modalTitle, changeModText] = useState("Ready to Order?");   // declaration of the variables passed in Modal
     const [orderTot, changeTotalText] = useState("You Will Owe"); 
@@ -119,45 +117,19 @@ const Purchase = () => {
 
     const fetchVehicleData = async (vin) => {       // fetches data from api of /getVehicle
         try {
-            const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
+            const response = await axios.get(`${apiUrl}/getVehicleDetails/${vin}`);
             return response.data; // Assuming you expect only one vehicle data object
         } catch (error) {
             console.error('Error fetching data:', error);
             throw new Error('Error fetching data');
         }
     };
-    const fetchVehicleFeatures = async (vin) => {   // fetches data from api of /getVehicleFeatures
-        try {
-            const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching features:', error);
-            throw new Error('Error fetching features');
-        }
-    };
-    const fetchVehiclePhotos = async (vin) => {     // fetches data from api of /getVehiclePhotos
-        try {
-            const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching photos:', error);
-            throw new Error('Error fetching photos');
-        }
-    };
     useEffect(() => {                               // calls functions to fetch necessary vehicle data
         const fetchData = async () => {
             try {
                 const dataResponse = await fetchVehicleData(vin);
-                const featuresResponse = await fetchVehicleFeatures(vin);
-                const photosResponse = await fetchVehiclePhotos(vin);
-
                 setVehicleData(dataResponse);
-                setVehicleFeatures(featuresResponse);
-                setVehiclePhotos(photosResponse);
-
                 console.log(vehicleData);
-                console.log(vehicleFeatures);
-                console.log(vehiclePhotos);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -214,8 +186,8 @@ const Purchase = () => {
                 <GeneralRow>
                     <GeneralColumn>
                         <BoxForImage>
-                        {vehiclePhotos.length > 0 && (
-                            <img src={vehiclePhotos[0].photo} width= {450} height={270} alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}/>
+                        {vehicleData.photos.length > 0 && (
+                            <img src={vehicleData.photos} height={270} alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}/>
                         )}
                         </BoxForImage>
                         <VehicleDetailBox>
