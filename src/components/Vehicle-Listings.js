@@ -148,7 +148,7 @@ export const SaveVehicleButton = () => {
 
 const fetchVehicleData = async (vin) => {
     try {
-        const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
+        const response = await axios.get(`${apiUrl}/getVehicleDetails/${vin}`);
         return response.data; // Assuming you expect only one vehicle data object
     } catch (error) {
         // console.error('Error fetching data:', error);
@@ -156,30 +156,9 @@ const fetchVehicleData = async (vin) => {
     }
 };
 
-const fetchVehicleFeatures = async (vin) => {
-    try {
-        const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
-        return response.data;
-    } catch (error) {
-        // console.error('Error fetching features:', error);
-        throw new Error('Error fetching features');
-    }
-};
-
-const fetchVehiclePhotos = async (vin) => {
-    try {
-        const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
-        return response.data;
-    } catch (error) {
-        // console.error('Error fetching photos:', error);
-        throw new Error('Error fetching photos');
-    }
-};
 
 const ListingTile = ({ vin, width }) => {
     const [vehicleData, setVehicleData] = useState(null);
-    const [vehicleFeatures, setVehicleFeatures] = useState([]);
-    const [vehiclePhotos, setVehiclePhotos] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -189,18 +168,6 @@ const ListingTile = ({ vin, width }) => {
                     setVehicleData(dataResponse);
                 } catch (error) {
                     // console.error('Error fetching data:', error);
-                }
-                try {
-                    const featuresResponse = await fetchVehicleFeatures(vin);
-                    setVehicleFeatures(featuresResponse);
-                } catch (error) {
-                    // console.error('Error fetching Features:', error);
-                }
-                try {
-                    const photosResponse = await fetchVehiclePhotos(vin);
-                    setVehiclePhotos(photosResponse);
-                } catch (error) {
-                    // console.error('Error fetching Photos:', error);
                 }
             } catch (error) {
                 // console.error('Error fetching data:', error);
@@ -220,9 +187,9 @@ const ListingTile = ({ vin, width }) => {
 
     return (
         <BoxForListing width={width}> {/* Render the BoxForListing component with the width prop */}
-            {vehiclePhotos && vehiclePhotos.length > 0 && (
+            {vehicleData.photos && vehicleData.photos.length > 0 && (
                 <img
-                    src={vehiclePhotos[0].photo}
+                    src={vehicleData.photos[0]}
                     alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}
                     style={{ maxWidth: '100%' }}
                 />
@@ -234,12 +201,12 @@ const ListingTile = ({ vin, width }) => {
             <p>{`${vehicleData.mileage} Miles`}</p>
             <p>{`$${vehicleData.msrp}`}</p>
 
-            {vehicleFeatures && vehicleFeatures.length > 0 && (
+            {vehicleData.features && vehicleData.features.length > 0 && (
                 <>
                     <h4>Features:</h4>
                     <ul>
-                        {vehicleFeatures.map((feature, index) => (
-                            <li key={index}>{feature.feature}</li>
+                        {vehicleData.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
                         ))}
                     </ul>
                 </>

@@ -27,9 +27,9 @@ const Home = () => {
                 </MainContainer>
             </div>
 
-            {/* separate the used car section from the deals section using different div tags*/ }
+            {/* separate the new car section from the deals section using different div tags*/ }
             <div>
-                <SectionHeader>Used Cars</SectionHeader>
+                <SectionHeader>Newest Cars</SectionHeader>
 
                 <MainContainer>
 
