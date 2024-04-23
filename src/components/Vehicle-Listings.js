@@ -146,7 +146,7 @@ export const SaveVehicleButton = () => {
 }
 
 
-const fetchVehicleData = async (vin) => {
+export const fetchVehicleData = async (vin) => {
     try {
         const response = await axios.get(`${apiUrl}/getVehicleDetails/${vin}`);
         return response.data; // Assuming you expect only one vehicle data object
