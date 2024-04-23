@@ -25,11 +25,7 @@ const Search = () => {
                 else {
                     data = await ListOfAllVehicles();
                 }
-                data = Array.isArray(data) ? data : [];
-                setVehicleData(prevData => {
-                    // Concatenate data to the previous data
-                    return [...prevData, ...data];
-                });        
+                setVehicleData(data);
             }
             catch (error) {
                 console.error('Error:', error)
