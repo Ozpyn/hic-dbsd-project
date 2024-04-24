@@ -123,11 +123,6 @@ export const PurchaseButton = ({ vin }) => {
 };
 
 
-const RedirectToSaveVehiclesPage = () => {
-    window.location.href = "/saved-vehicles";
-};
-
-
 export const SaveVehicleButton = ({ vin }) => {
     const location = useLocation(); // Get the current location
     const isSavedVehiclesPage = location.pathname === '/saved-vehicles';
