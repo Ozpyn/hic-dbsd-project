@@ -1,44 +1,4 @@
 
-// import React from 'react';
-// import styled from "styled-components";
-
-
-// const LoginPage = ({ onLogin }) => {
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const { email, password } = event.target.elements;
-
-//     // Simulate authentication logic
-//     if (email.value === 'student@kent.edu' && password.value === '12345') {
-//       onLogin(true);
-//     } else {
-//       alert('Invalid credentials');
-//     }
-//   };
-
-//   return (
-//     <div className="login-page">
-//       <div className="login-container">
-//         <h1>Sign In</h1>
-//         <form onSubmit={handleSubmit} className="login-form">
-//           <div className="input-group">
-//             <label htmlFor="email">Email</label>
-//             <input id="email" name="email" type="email" required />
-//           </div>
-//           <div className="input-group">
-//             <label htmlFor="password">Password</label>
-//             <input id="password" name="password" type="password" required />
-//           </div>
-//           <div className="action-group">
-//             <button type="submit" className="continue-button">Continue</button>
-//           </div>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoginPage;
 
 import React from 'react';
 import styled from 'styled-components';
