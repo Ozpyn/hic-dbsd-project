@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
@@ -128,6 +129,14 @@ const RedirectToSaveVehiclesPage = () => {
 
 
 export const SaveVehicleButton = ({ vin }) => {
+    const location = useLocation(); // Get the current location
+    const isSavedVehiclesPage = location.pathname === '/saved-vehicles';
+
+    // If it's the /saved-vehicles page, return null to prevent rendering the button
+    if (isSavedVehiclesPage) {
+        return null;
+    }
+    
     const handleSaveClick = () => {
         // Retrieve the existing saved vehicles array from the cookie or initialize it as an empty array
         var json_str = Cookies.get('savedVehicles');
