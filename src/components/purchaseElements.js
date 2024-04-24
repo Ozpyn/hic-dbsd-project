@@ -227,13 +227,13 @@ export const CondDisp = (fetchedVal) => {
 export const VinDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>VIN:</strong> {value}</label>
+        <label style={{marginRight: 20, fontSize: 15, textWrap: 'nowrap'}}><strong>VIN:</strong> {value}</label>
     )
 }
 export const MileageDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>Mileage:</strong> {value} miles</label>
+        <label style={{marginRight: 20, fontSize: 15, textWrap: 'nowrap'}}><strong>Mileage:</strong> {value} miles</label>
     )
 }
 export const YearDisp = (fetchedVal) => {
@@ -275,18 +275,18 @@ export const TypeDisp = (fetchedVal) => {
 export const MpgHDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>Mpg-Highway:</strong> {value} mpg</label>
+        <label style={{marginRight: 20, fontSize: 15, textWrap: 'nowrap'}}><strong>Mpg-Highway:</strong> {value} mpg</label>
     )
 }
 export const MpgCDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>Mpg-City:</strong> {value} mpg</label>
+        <label style={{marginRight: 20, fontSize: 15, textWrap: 'nowrap'}}><strong>Mpg-City:</strong> {value} mpg</label>
     )
 }
 export const MSRPDisp = (fetchedVal) => {
     const {value} = fetchedVal
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>MSRP:</strong> ${value}</label>
+        <label style={{marginRight: 20, fontSize: 15, textWrap: 'nowrap'}}><strong>MSRP:</strong> ${value}</label>
     )
 }

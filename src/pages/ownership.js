@@ -105,7 +105,7 @@ const CustomerVehicles = ({ customer, fetchCustomerNames }) => {
     );
 };
 
-const VehicleList = () => {
+export const VehicleList = () => {
     const [vehicleData, setVehicleData] = useState([]);
 
     useEffect(() => {

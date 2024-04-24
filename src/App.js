@@ -34,7 +34,9 @@ function App() {
                 />
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/about-vehicle" element={<AboutVehicle />} />
-                <Route path="/search" element={<Search />} />
+                <Route path="/search" element={<Search />}>
+                    <Route path=":searchQuery" element={<Search/>}/>
+                </Route>
                 <Route path="/ownership" element={<Ownership />} />
             </Routes>
             <Footer />
