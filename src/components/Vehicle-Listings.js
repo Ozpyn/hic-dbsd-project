@@ -127,21 +127,48 @@ const RedirectToSaveVehiclesPage = () => {
 };
 
 
-export const SaveVehicleButton = () => {
+export const SaveVehicleButton = ({ vin }) => {
+    const handleSaveClick = () => {
+        // Retrieve the existing saved vehicles array from the cookie or initialize it as an empty array
+        var json_str = Cookies.get('savedVehicles');
+        if (json_str) {
+        var vins = JSON.parse(json_str);
+    
+        // Check if the VIN is not already in the saved vehicles array
+        if (!vins.includes(vin)) {
+            // Add the VIN to the saved vehicles array
+            vins.push(vin);
+            var json_str2 = JSON.stringify(vins);
+            Cookies.set('savedVehicles', json_str2, { expires: 7 });
+        }
+    
+        // Print every VIN to the console for debugging
+        console.log("All saved VINs:", vins);
+         } else {
+            var vins2 = [];
+            vins2.push(vin);
+            var json_str3 = JSON.stringify(vins2);
+            Cookies.set('savedVehicles', json_str3, {expires: 7});
+         }
+    };
+    
+
     return (
-        <button onClick={RedirectToSaveVehiclesPage}
-        style={{
-            backgroundColor: "#007bff",
-            color: "#fff",
-            height: "100%",
-            width: "45%",
-            padding: "5% 5%",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-        }}   
+        <button
+            onClick={handleSaveClick}
+            style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+                height: "100%",
+                width: "45%",
+                padding: "5% 5%",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+            }}   
         >
-        Save Vehicle</button>
+            Save Vehicle
+        </button>
     );
 }
 
