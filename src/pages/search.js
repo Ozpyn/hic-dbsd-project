@@ -37,15 +37,8 @@ const Search = () => {
         
     }, [searchQuery]);
     
-
     return (
         <div>
-            {searchQuery ? (
-                <div key={vehicleData.vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}>
-                    <ListingTile vin={vehicleData.vin} width={20} />
-                </div>
-                
-            ) : (
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {vehicleData.map (vehicle => (
                     <div key={vehicle.vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}>
@@ -53,7 +46,6 @@ const Search = () => {
                     </div>
                 ))}
             </div>
-            )}
             <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
         </div>
         );
