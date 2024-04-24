@@ -12,8 +12,6 @@ const Search = () => {
     const searchQuery = searchParams.get("q");
 
     const [vehicleData, setVehicleData] = useState([]);
-    console.log(searchQuery);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +35,11 @@ const Search = () => {
         
     }, [searchQuery]);
     
+    // Checks if there are no vehicles that match the query
+    if (!vehicleData.length) {
+        return <div><h1>No vehicles found</h1></div>;
+    }
+
     return (
         <div>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>

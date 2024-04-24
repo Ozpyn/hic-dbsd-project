@@ -60,7 +60,6 @@ export const searchForVehicles = async (searchQuery) => {
     try {
         const response = await axios.get(`${apiUrl}/searchForVehicles?search=${encodeURIComponent(searchQuery)}`);
         const vehicleData = response.data;  
-        console.log(vehicleData);
         return vehicleData;
     }
     catch (error) {
