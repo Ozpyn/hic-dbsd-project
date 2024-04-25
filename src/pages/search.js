@@ -1,124 +1,57 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { ListOfAllVehicles, searchForVehicles } from "../components/SearchElements";
+import ListingTile from "../components/Vehicle-Listings";
 
-// Styled components
-const FiltersContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-right: 20px;
-`;
 
-const FilterGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-`;
 
-const FilterLabel = styled.label`
-  margin-bottom: 5px;
-`;
 
-const FilterSelect = styled.select`
-  padding: 5px;
-  margin-bottom: 10px;
-`;
-
-const FilterInput = styled.input`
-  padding: 5px;
-  margin-bottom: 10px;
-`;
-
-const ApplyButton = styled.button`
-  padding: 10px;
-  background-color: #0047ab;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #003580;
-  }
-`;
-
-// Search component
 const Search = () => {
-  const [searchParams, setSearchParams] = useState({
-    make: '',
-    model: '',
-    year: '',
-    minPrice: '',
-    maxPrice: '',
-    maxMileage: ''
-  });
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get("q");
 
-  const makes = ["Ford", "Toyota", "Honda", "Chevrolet"]; // Dummy makes array
-  const models = ["Fiesta", "Corolla", "Civic", "Camaro"]; // Dummy models array
-  const years = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i); // Years from now to 30 years ago
+    const [vehicleData, setVehicleData] = useState([]);
 
-  const handleInputChange = (e) => {
-    setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
-  };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let data;
+                if (searchQuery) {
+                    data = await searchForVehicles(searchQuery);
+                }
+                else {
+                    data = await ListOfAllVehicles();
+                }
+                setVehicleData(data);
+            }
+            catch (error) {
+                console.error('Error:', error)
+                setVehicleData([]);
+            }
+        };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Implement the search logic
-    console.log("Applied filters:", searchParams);
-  };
+        fetchData();
+        
+    }, [searchQuery]);
+    
+    // Checks if there are no vehicles that match the query
+    if (!vehicleData.length) {
+        return <div><h1>No vehicles found</h1></div>;
+    }
 
-  return (
-    <div>
-      <FiltersContainer>
-        <h2>Filters</h2>
-        <form onSubmit={handleSubmit}>
-          <FilterGroup>
-            <FilterLabel htmlFor="make">Make:</FilterLabel>
-            <FilterSelect id="make" name="make" onChange={handleInputChange} value={searchParams.make}>
-              <option value="">All Makes</option>
-              {makes.map((make, index) => (
-                <option key={index} value={make}>{make}</option>
-              ))}
-            </FilterSelect>
-          </FilterGroup>
-          <FilterGroup>
-            <FilterLabel htmlFor="model">Model:</FilterLabel>
-            <FilterSelect id="model" name="model" onChange={handleInputChange} value={searchParams.model}>
-              <option value="">All Models</option>
-              {models.map((model, index) => (
-                <option key={index} value={model}>{model}</option>
-              ))}
-            </FilterSelect>
-          </FilterGroup>
-          <FilterGroup>
-            <FilterLabel htmlFor="year">Year:</FilterLabel>
-            <FilterSelect id="year" name="year" onChange={handleInputChange} value={searchParams.year}>
-              <option value="">All Years</option>
-              {years.map((year, index) => (
-                <option key={index} value={year}>{year}</option>
-              ))}
-            </FilterSelect>
-          </FilterGroup>
-          <FilterGroup>
-            <FilterLabel htmlFor="minPrice">Min Price:</FilterLabel>
-            <FilterInput id="minPrice" name="minPrice" type="number" value={searchParams.minPrice} onChange={handleInputChange} />
-          </FilterGroup>
-          <FilterGroup>
-            <FilterLabel htmlFor="maxPrice">Max Price:</FilterLabel>
-            <FilterInput id="maxPrice" name="maxPrice" type="number" value={searchParams.maxPrice} onChange={handleInputChange} />
-          </FilterGroup>
-          <FilterGroup>
-            <FilterLabel htmlFor="maxMileage">Max Mileage:</FilterLabel>
-            <FilterInput id="maxMileage" name="maxMileage" type="number" value={searchParams.maxMileage} onChange={handleInputChange} />
-          </FilterGroup>
-          <ApplyButton type="submit">Apply Filters</ApplyButton>
-        </form>
-      </FiltersContainer>
-      {/* Here you can add your VehicleList component */}
-    </div>
-  );
-};
-
+    return (
+        <div>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {vehicleData.map (vehicle => (
+                    <div key={vehicle.vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}>
+                        <ListingTile vin={vehicle.vin} width={80} />
+                    </div>
+                ))}
+            </div>
+            <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
+        </div>
+        );
+    };
+ 
 export default Search;

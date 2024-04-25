@@ -1,1 +1,0 @@
-// Shared Vehicle panes, to be used on search, saved vehicles, and homepage
