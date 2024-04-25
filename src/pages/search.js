@@ -18,7 +18,9 @@ const Search = () => {
             try {
                 let data;
                 if (searchQuery) {
-                    data = await searchForVehicles(searchQuery);
+                    const searchWords = searchQuery.split('%20'); // split the search words at the space
+                    const searchData = await Promise.all(searchWords.map(searchWord => searchForVehicles(searchWord)));
+                    data = searchData.flat();
                 }
                 else {
                     data = await ListOfAllVehicles();
