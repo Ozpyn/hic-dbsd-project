@@ -220,8 +220,12 @@ export const OrderCloseButton = ({inpFunc}) => {        // closes modal popup
 // displays vehicle details
 export const CondDisp = (fetchedVal) => {
     const {value} = fetchedVal
+    let condVal = "New"
+    if (value > 500) {
+        condVal = "Used"
+    }
     return (
-        <label style={{marginRight: 20, fontSize: 15}}><strong>Condition:</strong> {value}</label>
+        <label style={{marginRight: 20, fontSize: 15}}><strong>Condition:</strong> {condVal}</label>
     )
 }
 export const VinDisp = (fetchedVal) => {

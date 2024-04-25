@@ -193,7 +193,7 @@ const Purchase = () => {
                         <VehicleDetailBox>
                             <h3>Vehicle Details:</h3>
                             <GeneralRow>
-                                <CondDisp value = {"Used"}/>
+                                <CondDisp value = {vehicleData.mileage}/>
                             </GeneralRow>
                             <GeneralRow>
                                 <VinDisp value = {vin}/>
