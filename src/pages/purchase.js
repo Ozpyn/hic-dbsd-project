@@ -193,7 +193,7 @@ const Purchase = () => {
                         <VehicleDetailBox>
                             <h3>Vehicle Details:</h3>
                             <GeneralRow>
-                                <CondDisp value = {"Used"}/>
+                                <CondDisp value = {vehicleData.mileage}/>
                             </GeneralRow>
                             <GeneralRow>
                                 <VinDisp value = {vin}/>
@@ -282,7 +282,7 @@ const Purchase = () => {
                                 </Modal>
                                 <Modal isOpen={openErrPay || openErrFrm}>
                                     <>
-                                        <p>Error: <dd>{payErrTxt} {frmErrTxt}</dd></p>
+                                        <p>Error: <dd>{payErrTxt}</dd> <dd>{frmErrTxt}</dd></p>
                                         <button onClick={handleClose}>Close</button>
                                     </>
                                 </Modal>
