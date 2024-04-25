@@ -139,7 +139,7 @@ const AboutVehicle = () => {
                 <p><strong>VIN:</strong> {vehicle.vin}</p>
                 <p><strong>Color:</strong> {vehicle.color}</p>
                 <p><strong>Mileage:</strong> {vehicle.mileage} miles</p>
-                <p><strong>Fuel Efficiency:</strong> {vehicle.mpgCity} mpg city / {vehicle.mpgHwy} mpg highway</p>
+                <p><strong>Fuel Efficiency:</strong> {vehicle['mpg-city']} mpg city / {vehicle['mpg-hwy']} mpg highway</p>
                 <p><strong>MSRP:</strong> ${vehicle.msrp.toLocaleString()}</p>
                 <p><strong>Type:</strong> {vehicle.type}</p>
                 {vehicle.features && vehicle.features.length > 0 ? (
