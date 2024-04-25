@@ -4,7 +4,6 @@ import env from "react-dotenv";
 import ListingTile from "../components/Vehicle-Listings";
 
 const apiUrl = env.APIURL;
-const tileWidth = 15;
 
 const Ownership = () => {
     const [loading, setLoading] = useState(true);

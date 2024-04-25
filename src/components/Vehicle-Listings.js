@@ -78,7 +78,6 @@ export const MoreVehiclesButton = () => {
                 color: "#00000",
                 padding: "10px",
                 border: "none",
-                height: "100%",
                 width: "100%",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -107,7 +106,6 @@ export const PurchaseButton = ({ vin }) => {
             style={{
                 backgroundColor: "#007bff",
                 color: "#fff",
-                height: "100%",
                 width: "45%",
                 margin: "2%",
                 padding: "5% 8%",
