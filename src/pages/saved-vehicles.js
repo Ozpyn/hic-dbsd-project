@@ -52,16 +52,17 @@ const SavedVehiclesList = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {vehicles.length > 0 ? (
                 vehicles.map(vehicle => (
                     <BoxForListing key={vehicle.vin} width={tileWidth}>
+                    <div style={{ flexGrow: 1 }}> {/* Ensure the button is at the bottom */}
                         <ListingTile vin={vehicle.vin}/>
+                    </div>
                         <button onClick={() => removeVehicle(vehicle.vin)}
                         style={{
                             backgroundColor: "#fa8072",
                             color: "#fff",
-                            height: "100%",
                             width: "100%",
                             padding: "5% 5%",
                             border: "none",
@@ -74,6 +75,7 @@ const SavedVehiclesList = () => {
             ) : (
                 <p>No saved vehicles.</p>
             )}
+            <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
         </div>
     );
 };

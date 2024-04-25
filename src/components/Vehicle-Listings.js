@@ -78,7 +78,6 @@ export const MoreVehiclesButton = () => {
                 color: "#00000",
                 padding: "10px",
                 border: "none",
-                height: "100%",
                 width: "100%",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -107,7 +106,6 @@ export const PurchaseButton = ({ vin }) => {
             style={{
                 backgroundColor: "#007bff",
                 color: "#fff",
-                height: "100%",
                 width: "45%",
                 margin: "2%",
                 padding: "5% 8%",
@@ -154,6 +152,7 @@ export const SaveVehicleButton = ({ vin }) => {
             var json_str3 = JSON.stringify(vins2);
             Cookies.set('savedVehicles', json_str3, {expires: 7});
          }
+         window.alert('Vehicle saved successfully!');
     };
     
 
