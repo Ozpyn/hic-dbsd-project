@@ -74,7 +74,7 @@ const SavedVehiclesList = () => {
                 ))
             ) : (
                 <div style={{ marginBottom: "25%"}}>
-                    <p>No saved vehicles.</p>
+                    <h2>No saved vehicles.</h2>
                 </div>
             )}
             <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
