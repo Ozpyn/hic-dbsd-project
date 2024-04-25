@@ -154,6 +154,7 @@ export const SaveVehicleButton = ({ vin }) => {
             var json_str3 = JSON.stringify(vins2);
             Cookies.set('savedVehicles', json_str3, {expires: 7});
          }
+         window.alert('Vehicle saved successfully!');
     };
     
 

@@ -96,12 +96,17 @@ const CustomerVehicles = ({ customer, fetchCustomerNames }) => {
     }, [customer, fetchCustomerNames]);
 
     return (
-        <div>
+        <>
             <h2>{customerName}</h2>
-            {vehicles.map((vin) => (
-                <ListingTile key={vin} vin={vin} width={tileWidth} />
-            ))}
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {vehicles.map((vin) => (
+                    <div key={vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}>
+                        <ListingTile key={vin} vin={vin} />
+                    </div>
+                ))}
+            <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
         </div>
+    </>
     );
 };
 
@@ -126,7 +131,7 @@ export const VehicleList = () => {
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {vehicleData.map((vehicle) => (
                 <div key={vehicle.vin} className="vehicle" style={{ flex: '0 0 20%', marginBottom: '20px' }}>
-                    <ListingTile key={vehicle.vin} vin={vehicle.vin} width={80} />
+                    <ListingTile key={vehicle.vin} vin={vehicle.vin} />
                 </div>
             ))}
             <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
