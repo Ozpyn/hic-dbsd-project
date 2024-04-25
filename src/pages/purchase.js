@@ -282,7 +282,7 @@ const Purchase = () => {
                                 </Modal>
                                 <Modal isOpen={openErrPay || openErrFrm}>
                                     <>
-                                        <p>Error: <dd>{payErrTxt} {frmErrTxt}</dd></p>
+                                        <p>Error: <dd>{payErrTxt}</dd> <dd>{frmErrTxt}</dd></p>
                                         <button onClick={handleClose}>Close</button>
                                     </>
                                 </Modal>
