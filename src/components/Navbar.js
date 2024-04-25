@@ -1,5 +1,6 @@
 import React from "react";
-import { Nav, NavLink, NavMenu, SearchContainer, SearchInput, SearchButton } from "./NavbarElements";
+import { Nav, NavLink, NavMenu } from "./NavbarElements";
+import { SearchBar } from "./SearchElements";
 // import { ThemeProvider } from "@mui/material/styles"
 // import Button from "@mui/material/Button"
 
@@ -27,12 +28,7 @@ const Navbar = () => {
                         Ownership
                     </NavLink>
 
-                    <SearchContainer>
-                        <SearchInput type="text" 
-                                     placeholder="Search For Vehicles"
-                        />
-                        <SearchButton/>
-                    </SearchContainer>
+                    <SearchBar/>
 
                 </NavMenu>
             </Nav>

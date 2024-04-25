@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
@@ -122,33 +123,63 @@ export const PurchaseButton = ({ vin }) => {
 };
 
 
-const RedirectToSaveVehiclesPage = () => {
-    window.location.href = "/saved-vehicles";
-};
+export const SaveVehicleButton = ({ vin }) => {
+    const location = useLocation(); // Get the current location
+    const isSavedVehiclesPage = location.pathname === '/saved-vehicles';
 
+    // If it's the /saved-vehicles page, return null to prevent rendering the button
+    if (isSavedVehiclesPage) {
+        return null;
+    }
+    
+    const handleSaveClick = () => {
+        // Retrieve the existing saved vehicles array from the cookie or initialize it as an empty array
+        var json_str = Cookies.get('savedVehicles');
+        if (json_str) {
+        var vins = JSON.parse(json_str);
+    
+        // Check if the VIN is not already in the saved vehicles array
+        if (!vins.includes(vin)) {
+            // Add the VIN to the saved vehicles array
+            vins.push(vin);
+            var json_str2 = JSON.stringify(vins);
+            Cookies.set('savedVehicles', json_str2, { expires: 7 });
+        }
+    
+        // Print every VIN to the console for debugging
+        console.log("All saved VINs:", vins);
+         } else {
+            var vins2 = [];
+            vins2.push(vin);
+            var json_str3 = JSON.stringify(vins2);
+            Cookies.set('savedVehicles', json_str3, {expires: 7});
+         }
+    };
+    
 
-export const SaveVehicleButton = () => {
     return (
-        <button onClick={RedirectToSaveVehiclesPage}
-        style={{
-            backgroundColor: "#007bff",
-            color: "#fff",
-            height: "100%",
-            width: "45%",
-            padding: "5% 5%",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-        }}   
+        <button
+            onClick={handleSaveClick}
+            style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+                height: "100%",
+                width: "45%",
+                padding: "5% 5%",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+            }}   
         >
-        Save Vehicle</button>
+            Save Vehicle
+        </button>
     );
 }
 
 
-const fetchVehicleData = async (vin) => {
+export const fetchVehicleData = async (vin) => {
     try {
-        const response = await axios.get(`${apiUrl}/getVehicle/${vin}`);
+        const response = await axios.get(`${apiUrl}/getVehicleDetails/${vin}`);
         return response.data; // Assuming you expect only one vehicle data object
     } catch (error) {
         // console.error('Error fetching data:', error);
@@ -156,30 +187,9 @@ const fetchVehicleData = async (vin) => {
     }
 };
 
-const fetchVehicleFeatures = async (vin) => {
-    try {
-        const response = await axios.get(`${apiUrl}/getVehicleFeatures/${vin}`);
-        return response.data;
-    } catch (error) {
-        // console.error('Error fetching features:', error);
-        throw new Error('Error fetching features');
-    }
-};
-
-const fetchVehiclePhotos = async (vin) => {
-    try {
-        const response = await axios.get(`${apiUrl}/getVehiclePhotos/${vin}`);
-        return response.data;
-    } catch (error) {
-        // console.error('Error fetching photos:', error);
-        throw new Error('Error fetching photos');
-    }
-};
 
 const ListingTile = ({ vin, width }) => {
     const [vehicleData, setVehicleData] = useState(null);
-    const [vehicleFeatures, setVehicleFeatures] = useState([]);
-    const [vehiclePhotos, setVehiclePhotos] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -190,18 +200,6 @@ const ListingTile = ({ vin, width }) => {
                 } catch (error) {
                     // console.error('Error fetching data:', error);
                 }
-                try {
-                    const featuresResponse = await fetchVehicleFeatures(vin);
-                    setVehicleFeatures(featuresResponse);
-                } catch (error) {
-                    // console.error('Error fetching Features:', error);
-                }
-                try {
-                    const photosResponse = await fetchVehiclePhotos(vin);
-                    setVehiclePhotos(photosResponse);
-                } catch (error) {
-                    // console.error('Error fetching Photos:', error);
-                }
             } catch (error) {
                 // console.error('Error fetching data:', error);
             }
@@ -210,32 +208,36 @@ const ListingTile = ({ vin, width }) => {
         fetchData();
     }, [vin]);
 
+    const handleAboutVehicleClick = (vehicleVIN) => {
+            Cookies.set('aboutVin', vehicleVIN);
+    };
+
     if (!vehicleData) {
         return <div>Loading...</div>;
     }
 
     return (
         <BoxForListing width={width}> {/* Render the BoxForListing component with the width prop */}
-            {vehiclePhotos && vehiclePhotos.length > 0 && (
+            {vehicleData.photos && vehicleData.photos.length > 0 && (
                 <img
-                    src={vehiclePhotos[0].photo}
+                    src={vehicleData.photos[0]}
                     alt={`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}
                     style={{ maxWidth: '100%' }}
                 />
             )}
 
-            <a href="/about-vehicle">
+            <a href="/about-vehicle" onClick={() => handleAboutVehicleClick(vehicleData.vin)}>
                 <h3>{`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}</h3>
             </a>
             <p>{`${vehicleData.mileage} Miles`}</p>
             <p>{`$${vehicleData.msrp}`}</p>
 
-            {vehicleFeatures && vehicleFeatures.length > 0 && (
+            {vehicleData.features && vehicleData.features.length > 0 && (
                 <>
                     <h4>Features:</h4>
                     <ul>
-                        {vehicleFeatures.map((feature, index) => (
-                            <li key={index}>{feature.feature}</li>
+                        {vehicleData.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
                         ))}
                     </ul>
                 </>
