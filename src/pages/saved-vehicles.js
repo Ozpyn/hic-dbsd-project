@@ -73,7 +73,9 @@ const SavedVehiclesList = () => {
                     </BoxForListing>
                 ))
             ) : (
-                <p>No saved vehicles.</p>
+                <div style={{ marginBottom: "25%"}}>
+                    <h2>No saved vehicles.</h2>
+                </div>
             )}
             <div style={{ flex: '0 0 100%', marginBottom: '20px' }}></div>
         </div>

@@ -77,6 +77,7 @@ export const MoreVehiclesButton = () => {
                 backgroundColor: "#fff",
                 color: "#00000",
                 padding: "10px",
+                height: "100%",
                 border: "none",
                 width: "100%",
                 borderRadius: "5px",

@@ -58,7 +58,7 @@ const SearchButton = () => {
 
 export const searchForVehicles = async (searchQuery) => {
     try {
-        const response = await axios.get(`${apiUrl}/searchForVehicles?search=${encodeURIComponent(searchQuery)}`);
+        const response = await axios.get(`${apiUrl}/searchForVehicles?q=${encodeURIComponent(searchQuery)}`);
         const vehicleData = response.data;  
         return vehicleData;
     }
