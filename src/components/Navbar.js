@@ -22,7 +22,7 @@ const Navbar = () => {
                         Payment Calculator
                     </NavLink>
                     <NavLink to="/sign-in">
-                        Sign-In
+                        Sign-In / Sign-Up
                     </NavLink>
                     <NavLink to="/ownership">
                         Ownership

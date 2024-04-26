@@ -15,6 +15,7 @@ import Purchase from "./pages/purchase";
 import AboutVehicle from "./pages/about-vehicle";
 import Search from "./pages/search";
 import Ownership from "./pages/ownership";
+import CreateAccount from "./pages/create-account";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                     path="/sign-in"
                     element={<SignIn />}
                 />
+                <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/about-vehicle" element={<AboutVehicle />} />
                 <Route path="/search" element={<Search />}>
