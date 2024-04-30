@@ -24,15 +24,9 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route path="/saved-vehicles" element={<SavedVehicles />} />
-                <Route
-                    path="/trade-calc"
-                    element={<TradeCalc />}
-                />
+                <Route path="/trade-calc" element={<TradeCalc />} />
                 <Route path="/pay-calc" element={<PayCalc />} />
-                <Route
-                    path="/sign-in"
-                    element={<SignIn />}
-                />
+                <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/about-vehicle" element={<AboutVehicle />} />

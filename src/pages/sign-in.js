@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginPageContainer, LoginBox, LoginForm, InputGroup, Label, Input, ActionGroup, ContinueButton, CreateAccountLink } from '../components/SignInElements';
+import { NavLink } from "../components/NavbarElements";
 
 
 const LoginPage = () => {
@@ -37,7 +38,9 @@ const LoginPage = () => {
                     <ActionGroup>
                         <ContinueButton href="/">Sign In</ContinueButton>
                         <p>or</p>
-                        <CreateAccountLink href="/create-account">Create Account</CreateAccountLink>
+                        <ContinueButton>
+                        <NavLink to="/create-account">Create Account</NavLink>
+                        </ContinueButton>
                     </ActionGroup>
                 </LoginForm>
             </LoginBox>

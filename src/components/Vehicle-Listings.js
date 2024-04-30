@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import styled from "styled-components";
 import env from "react-dotenv";
 import Cookies from 'js-cookie';
@@ -65,14 +65,11 @@ export const ButtonContainer = styled.div`
 `;
 
 
-const RedirectToSearch = () => {
-    window.location.href = "/search";
-};
 
 
 export const MoreVehiclesButton = () => {
     return (
-        <button onClick={RedirectToSearch}
+        <button
             style={{
                 backgroundColor: "#fff",
                 color: "#00000",
@@ -84,21 +81,17 @@ export const MoreVehiclesButton = () => {
                 cursor: "pointer",
             }}
         >
-            <h2>More Vehicles</h2>
-            <h1>&rarr;</h1>
+            <NavLink to="/search">
+                <h2>More Vehicles</h2>
+                <h1>&rarr;</h1>
+            </NavLink>
         </button>
     )
 };
 
-
-const RedirectToPurchasePage = (vin) => {
-    window.location.href = "/purchase";
-    Cookies.set('purchaseVehicle', vin);
-};
-
 export const PurchaseButton = ({ vin }) => {
     const handleClick = () => {
-        RedirectToPurchasePage(vin);
+        Cookies.set('purchaseVehicle', vin);
     };
 
     return (
@@ -116,8 +109,12 @@ export const PurchaseButton = ({ vin }) => {
                 marginTop: "auto",
             }}
         >
-            Purchase
+        <NavLink to="/purchase" style ={{color: "#fff"}}>
+                Purchase
+        </NavLink>
+
         </button>
+
     );
 };
 
@@ -226,9 +223,9 @@ const ListingTile = ({ vin, width }) => {
                 />
             )}
 
-            <a href="/about-vehicle" onClick={() => handleAboutVehicleClick(vehicleData.vin)}>
+            <NavLink to="/about-vehicle" onClick={() => handleAboutVehicleClick(vehicleData.vin)}>
                 <h3>{`${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`}</h3>
-            </a>
+            </NavLink>
             <p>{`${vehicleData.mileage} Miles`}</p>
             <p>{`$${vehicleData.msrp}`}</p>
 
